@@ -4,7 +4,7 @@ use warnings;
 
 my ($ref) = @ARGV;
 
-
+# Ref is K03455.1
 # CDS [2358..5096] [pol polyprotein] [codon_start=1]
 
 # Protease                  [2253,2357]
