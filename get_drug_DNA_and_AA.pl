@@ -33,7 +33,7 @@ close IN;
 my %AA_Pos;
 $AA_Pos{"Protease"} = "2253,2549";
 $AA_Pos{"RT"}       = "2550,4229";
-$AA_Pos{"Integrase"} = "4233,5096";
+$AA_Pos{"Integrase"} = "4230,5096";
 
 my @AA = qw/Protease RT Integrase/;
 
@@ -84,6 +84,16 @@ sub cat_fa{
 
 	return($seq);
 }
+
+# HIVdb FAQ
+# https://hivdb.stanford.edu/pages/FAQ/FAQ.html
+
+# mut-scores
+# https://hivdb.stanford.edu/dr-summary/mut-scores/PI/
+# https://hivdb.stanford.edu/dr-summary/mut-scores/NRTI/
+# https://hivdb.stanford.edu/dr-summary/mut-scores/NRTI/
+# https://hivdb.stanford.edu/dr-summary/mut-scores/INSTI/
+
 
 # Ref is K03455.1
 # CDS [2358..5096] [pol polyprotein] [codon_start=1]
