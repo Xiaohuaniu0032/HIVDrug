@@ -1,0 +1,947 @@
+Protease	1	CCT	P	Proline
+Protease	2	CAG	Q	Glutamine
+Protease	3	GTC	V	Valine
+Protease	4	ACT	T	Threonine
+Protease	5	CTT	L	Leucine
+Protease	6	TGG	W	Tryptophan
+Protease	7	CAA	Q	Glutamine
+Protease	8	CGA	R	Arginine
+Protease	9	CCC	P	Proline
+Protease	10	CTC	L	Leucine
+Protease	11	GTC	V	Valine
+Protease	12	ACA	T	Threonine
+Protease	13	ATA	I	Isoleucine
+Protease	14	AAG	K	Lysine
+Protease	15	ATA	I	Isoleucine
+Protease	16	GGG	G	Glycine
+Protease	17	GGG	G	Glycine
+Protease	18	CAA	Q	Glutamine
+Protease	19	CTA	L	Leucine
+Protease	20	AAG	K	Lysine
+Protease	21	GAA	E	Glutamic acid
+Protease	22	GCT	A	Alanine
+Protease	23	CTA	L	Leucine
+Protease	24	TTA	L	Leucine
+Protease	25	GAT	D	Aspartic acid
+Protease	26	ACA	T	Threonine
+Protease	27	GGA	G	Glycine
+Protease	28	GCA	A	Alanine
+Protease	29	GAT	D	Aspartic acid
+Protease	30	GAT	D	Aspartic acid
+Protease	31	ACA	T	Threonine
+Protease	32	GTA	V	Valine
+Protease	33	TTA	L	Leucine
+Protease	34	GAA	E	Glutamic acid
+Protease	35	GAA	E	Glutamic acid
+Protease	36	ATG	M	Methionine
+Protease	37	AGT	S	Serine
+Protease	38	TTG	L	Leucine
+Protease	39	CCA	P	Proline
+Protease	40	GGA	G	Glycine
+Protease	41	AGA	R	Arginine
+Protease	42	TGG	W	Tryptophan
+Protease	43	AAA	K	Lysine
+Protease	44	CCA	P	Proline
+Protease	45	AAA	K	Lysine
+Protease	46	ATG	M	Methionine
+Protease	47	ATA	I	Isoleucine
+Protease	48	GGG	G	Glycine
+Protease	49	GGA	G	Glycine
+Protease	50	ATT	I	Isoleucine
+Protease	51	GGA	G	Glycine
+Protease	52	GGT	G	Glycine
+Protease	53	TTT	F	Phenylalanine
+Protease	54	ATC	I	Isoleucine
+Protease	55	AAA	K	Lysine
+Protease	56	GTA	V	Valine
+Protease	57	AGA	R	Arginine
+Protease	58	CAG	Q	Glutamine
+Protease	59	TAT	Y	Tyrosine
+Protease	60	GAT	D	Aspartic acid
+Protease	61	CAG	Q	Glutamine
+Protease	62	ATA	I	Isoleucine
+Protease	63	CTC	L	Leucine
+Protease	64	ATA	I	Isoleucine
+Protease	65	GAA	E	Glutamic acid
+Protease	66	ATC	I	Isoleucine
+Protease	67	TGT	C	Cysteine
+Protease	68	GGA	G	Glycine
+Protease	69	CAT	H	Histidine
+Protease	70	AAA	K	Lysine
+Protease	71	GCT	A	Alanine
+Protease	72	ATA	I	Isoleucine
+Protease	73	GGT	G	Glycine
+Protease	74	ACA	T	Threonine
+Protease	75	GTA	V	Valine
+Protease	76	TTA	L	Leucine
+Protease	77	GTA	V	Valine
+Protease	78	GGA	G	Glycine
+Protease	79	CCT	P	Proline
+Protease	80	ACA	T	Threonine
+Protease	81	CCT	P	Proline
+Protease	82	GTC	V	Valine
+Protease	83	AAC	N	Asparagine
+Protease	84	ATA	I	Isoleucine
+Protease	85	ATT	I	Isoleucine
+Protease	86	GGA	G	Glycine
+Protease	87	AGA	R	Arginine
+Protease	88	AAT	N	Asparagine
+Protease	89	CTG	L	Leucine
+Protease	90	TTG	L	Leucine
+Protease	91	ACT	T	Threonine
+Protease	92	CAG	Q	Glutamine
+Protease	93	ATT	I	Isoleucine
+Protease	94	GGT	G	Glycine
+Protease	95	TGC	C	Cysteine
+Protease	96	ACT	T	Threonine
+Protease	97	TTA	L	Leucine
+Protease	98	AAT	N	Asparagine
+Protease	99	TTT	F	Phenylalanine
+RT	1	CCC	P	Proline
+RT	2	ATT	I	Isoleucine
+RT	3	AGC	S	Serine
+RT	4	CCT	P	Proline
+RT	5	ATT	I	Isoleucine
+RT	6	GAG	E	Glutamic acid
+RT	7	ACT	T	Threonine
+RT	8	GTA	V	Valine
+RT	9	CCA	P	Proline
+RT	10	GTA	V	Valine
+RT	11	AAA	K	Lysine
+RT	12	TTA	L	Leucine
+RT	13	AAG	K	Lysine
+RT	14	CCA	P	Proline
+RT	15	GGA	G	Glycine
+RT	16	ATG	M	Methionine
+RT	17	GAT	D	Aspartic acid
+RT	18	GGC	G	Glycine
+RT	19	CCA	P	Proline
+RT	20	AAA	K	Lysine
+RT	21	GTT	V	Valine
+RT	22	AAA	K	Lysine
+RT	23	CAA	Q	Glutamine
+RT	24	TGG	W	Tryptophan
+RT	25	CCA	P	Proline
+RT	26	TTG	L	Leucine
+RT	27	ACA	T	Threonine
+RT	28	GAA	E	Glutamic acid
+RT	29	GAA	E	Glutamic acid
+RT	30	AAA	K	Lysine
+RT	31	ATA	I	Isoleucine
+RT	32	AAA	K	Lysine
+RT	33	GCA	A	Alanine
+RT	34	TTA	L	Leucine
+RT	35	GTA	V	Valine
+RT	36	GAA	E	Glutamic acid
+RT	37	ATT	I	Isoleucine
+RT	38	TGT	C	Cysteine
+RT	39	ACA	T	Threonine
+RT	40	GAG	E	Glutamic acid
+RT	41	ATG	M	Methionine
+RT	42	GAA	E	Glutamic acid
+RT	43	AAG	K	Lysine
+RT	44	GAA	E	Glutamic acid
+RT	45	GGG	G	Glycine
+RT	46	AAA	K	Lysine
+RT	47	ATT	I	Isoleucine
+RT	48	TCA	S	Serine
+RT	49	AAA	K	Lysine
+RT	50	ATT	I	Isoleucine
+RT	51	GGG	G	Glycine
+RT	52	CCT	P	Proline
+RT	53	GAA	E	Glutamic acid
+RT	54	AAT	N	Asparagine
+RT	55	CCA	P	Proline
+RT	56	TAC	Y	Tyrosine
+RT	57	AAT	N	Asparagine
+RT	58	ACT	T	Threonine
+RT	59	CCA	P	Proline
+RT	60	GTA	V	Valine
+RT	61	TTT	F	Phenylalanine
+RT	62	GCC	A	Alanine
+RT	63	ATA	I	Isoleucine
+RT	64	AAG	K	Lysine
+RT	65	AAA	K	Lysine
+RT	66	AAA	K	Lysine
+RT	67	GAC	D	Aspartic acid
+RT	68	AGT	S	Serine
+RT	69	ACT	T	Threonine
+RT	70	AAA	K	Lysine
+RT	71	TGG	W	Tryptophan
+RT	72	AGA	R	Arginine
+RT	73	AAA	K	Lysine
+RT	74	TTA	L	Leucine
+RT	75	GTA	V	Valine
+RT	76	GAT	D	Aspartic acid
+RT	77	TTC	F	Phenylalanine
+RT	78	AGA	R	Arginine
+RT	79	GAA	E	Glutamic acid
+RT	80	CTT	L	Leucine
+RT	81	AAT	N	Asparagine
+RT	82	AAG	K	Lysine
+RT	83	AGA	R	Arginine
+RT	84	ACT	T	Threonine
+RT	85	CAA	Q	Glutamine
+RT	86	GAC	D	Aspartic acid
+RT	87	TTC	F	Phenylalanine
+RT	88	TGG	W	Tryptophan
+RT	89	GAA	E	Glutamic acid
+RT	90	GTT	V	Valine
+RT	91	CAA	Q	Glutamine
+RT	92	TTA	L	Leucine
+RT	93	GGA	G	Glycine
+RT	94	ATA	I	Isoleucine
+RT	95	CCA	P	Proline
+RT	96	CAT	H	Histidine
+RT	97	CCC	P	Proline
+RT	98	GCA	A	Alanine
+RT	99	GGG	G	Glycine
+RT	100	TTA	L	Leucine
+RT	101	AAA	K	Lysine
+RT	102	AAG	K	Lysine
+RT	103	AAA	K	Lysine
+RT	104	AAA	K	Lysine
+RT	105	TCA	S	Serine
+RT	106	GTA	V	Valine
+RT	107	ACA	T	Threonine
+RT	108	GTA	V	Valine
+RT	109	CTG	L	Leucine
+RT	110	GAT	D	Aspartic acid
+RT	111	GTG	V	Valine
+RT	112	GGT	G	Glycine
+RT	113	GAT	D	Aspartic acid
+RT	114	GCA	A	Alanine
+RT	115	TAT	Y	Tyrosine
+RT	116	TTT	F	Phenylalanine
+RT	117	TCA	S	Serine
+RT	118	GTT	V	Valine
+RT	119	CCC	P	Proline
+RT	120	TTA	L	Leucine
+RT	121	GAT	D	Aspartic acid
+RT	122	GAA	E	Glutamic acid
+RT	123	GAC	D	Aspartic acid
+RT	124	TTC	F	Phenylalanine
+RT	125	AGG	R	Arginine
+RT	126	AAG	K	Lysine
+RT	127	TAT	Y	Tyrosine
+RT	128	ACT	T	Threonine
+RT	129	GCA	A	Alanine
+RT	130	TTT	F	Phenylalanine
+RT	131	ACC	T	Threonine
+RT	132	ATA	I	Isoleucine
+RT	133	CCT	P	Proline
+RT	134	AGT	S	Serine
+RT	135	ATA	I	Isoleucine
+RT	136	AAC	N	Asparagine
+RT	137	AAT	N	Asparagine
+RT	138	GAG	E	Glutamic acid
+RT	139	ACA	T	Threonine
+RT	140	CCA	P	Proline
+RT	141	GGG	G	Glycine
+RT	142	ATT	I	Isoleucine
+RT	143	AGA	R	Arginine
+RT	144	TAT	Y	Tyrosine
+RT	145	CAG	Q	Glutamine
+RT	146	TAC	Y	Tyrosine
+RT	147	AAT	N	Asparagine
+RT	148	GTG	V	Valine
+RT	149	CTT	L	Leucine
+RT	150	CCA	P	Proline
+RT	151	CAG	Q	Glutamine
+RT	152	GGA	G	Glycine
+RT	153	TGG	W	Tryptophan
+RT	154	AAA	K	Lysine
+RT	155	GGA	G	Glycine
+RT	156	TCA	S	Serine
+RT	157	CCA	P	Proline
+RT	158	GCA	A	Alanine
+RT	159	ATA	I	Isoleucine
+RT	160	TTC	F	Phenylalanine
+RT	161	CAA	Q	Glutamine
+RT	162	AGT	S	Serine
+RT	163	AGC	S	Serine
+RT	164	ATG	M	Methionine
+RT	165	ACA	T	Threonine
+RT	166	AAA	K	Lysine
+RT	167	ATC	I	Isoleucine
+RT	168	TTA	L	Leucine
+RT	169	GAG	E	Glutamic acid
+RT	170	CCT	P	Proline
+RT	171	TTT	F	Phenylalanine
+RT	172	AGA	R	Arginine
+RT	173	AAA	K	Lysine
+RT	174	CAA	Q	Glutamine
+RT	175	AAT	N	Asparagine
+RT	176	CCA	P	Proline
+RT	177	GAC	D	Aspartic acid
+RT	178	ATA	I	Isoleucine
+RT	179	GTT	V	Valine
+RT	180	ATC	I	Isoleucine
+RT	181	TAT	Y	Tyrosine
+RT	182	CAA	Q	Glutamine
+RT	183	TAC	Y	Tyrosine
+RT	184	ATG	M	Methionine
+RT	185	GAT	D	Aspartic acid
+RT	186	GAT	D	Aspartic acid
+RT	187	TTG	L	Leucine
+RT	188	TAT	Y	Tyrosine
+RT	189	GTA	V	Valine
+RT	190	GGA	G	Glycine
+RT	191	TCT	S	Serine
+RT	192	GAC	D	Aspartic acid
+RT	193	TTA	L	Leucine
+RT	194	GAA	E	Glutamic acid
+RT	195	ATA	I	Isoleucine
+RT	196	GGG	G	Glycine
+RT	197	CAG	Q	Glutamine
+RT	198	CAT	H	Histidine
+RT	199	AGA	R	Arginine
+RT	200	ACA	T	Threonine
+RT	201	AAA	K	Lysine
+RT	202	ATA	I	Isoleucine
+RT	203	GAG	E	Glutamic acid
+RT	204	GAG	E	Glutamic acid
+RT	205	CTG	L	Leucine
+RT	206	AGA	R	Arginine
+RT	207	CAA	Q	Glutamine
+RT	208	CAT	H	Histidine
+RT	209	CTG	L	Leucine
+RT	210	TTG	L	Leucine
+RT	211	AGG	R	Arginine
+RT	212	TGG	W	Tryptophan
+RT	213	GGA	G	Glycine
+RT	214	CTT	L	Leucine
+RT	215	ACC	T	Threonine
+RT	216	ACA	T	Threonine
+RT	217	CCA	P	Proline
+RT	218	GAC	D	Aspartic acid
+RT	219	AAA	K	Lysine
+RT	220	AAA	K	Lysine
+RT	221	CAT	H	Histidine
+RT	222	CAG	Q	Glutamine
+RT	223	AAA	K	Lysine
+RT	224	GAA	E	Glutamic acid
+RT	225	CCT	P	Proline
+RT	226	CCA	P	Proline
+RT	227	TTC	F	Phenylalanine
+RT	228	CTT	L	Leucine
+RT	229	TGG	W	Tryptophan
+RT	230	ATG	M	Methionine
+RT	231	GGT	G	Glycine
+RT	232	TAT	Y	Tyrosine
+RT	233	GAA	E	Glutamic acid
+RT	234	CTC	L	Leucine
+RT	235	CAT	H	Histidine
+RT	236	CCT	P	Proline
+RT	237	GAT	D	Aspartic acid
+RT	238	AAA	K	Lysine
+RT	239	TGG	W	Tryptophan
+RT	240	ACA	T	Threonine
+RT	241	GTA	V	Valine
+RT	242	CAG	Q	Glutamine
+RT	243	CCT	P	Proline
+RT	244	ATA	I	Isoleucine
+RT	245	GTG	V	Valine
+RT	246	CTG	L	Leucine
+RT	247	CCA	P	Proline
+RT	248	GAA	E	Glutamic acid
+RT	249	AAA	K	Lysine
+RT	250	GAC	D	Aspartic acid
+RT	251	AGC	S	Serine
+RT	252	TGG	W	Tryptophan
+RT	253	ACT	T	Threonine
+RT	254	GTC	V	Valine
+RT	255	AAT	N	Asparagine
+RT	256	GAC	D	Aspartic acid
+RT	257	ATA	I	Isoleucine
+RT	258	CAG	Q	Glutamine
+RT	259	AAG	K	Lysine
+RT	260	TTA	L	Leucine
+RT	261	GTG	V	Valine
+RT	262	GGG	G	Glycine
+RT	263	AAA	K	Lysine
+RT	264	TTG	L	Leucine
+RT	265	AAT	N	Asparagine
+RT	266	TGG	W	Tryptophan
+RT	267	GCA	A	Alanine
+RT	268	AGT	S	Serine
+RT	269	CAG	Q	Glutamine
+RT	270	ATT	I	Isoleucine
+RT	271	TAC	Y	Tyrosine
+RT	272	CCA	P	Proline
+RT	273	GGG	G	Glycine
+RT	274	ATT	I	Isoleucine
+RT	275	AAA	K	Lysine
+RT	276	GTA	V	Valine
+RT	277	AGG	R	Arginine
+RT	278	CAA	Q	Glutamine
+RT	279	TTA	L	Leucine
+RT	280	TGT	C	Cysteine
+RT	281	AAA	K	Lysine
+RT	282	CTC	L	Leucine
+RT	283	CTT	L	Leucine
+RT	284	AGA	R	Arginine
+RT	285	GGA	G	Glycine
+RT	286	ACC	T	Threonine
+RT	287	AAA	K	Lysine
+RT	288	GCA	A	Alanine
+RT	289	CTA	L	Leucine
+RT	290	ACA	T	Threonine
+RT	291	GAA	E	Glutamic acid
+RT	292	GTA	V	Valine
+RT	293	ATA	I	Isoleucine
+RT	294	CCA	P	Proline
+RT	295	CTA	L	Leucine
+RT	296	ACA	T	Threonine
+RT	297	GAA	E	Glutamic acid
+RT	298	GAA	E	Glutamic acid
+RT	299	GCA	A	Alanine
+RT	300	GAG	E	Glutamic acid
+RT	301	CTA	L	Leucine
+RT	302	GAA	E	Glutamic acid
+RT	303	CTG	L	Leucine
+RT	304	GCA	A	Alanine
+RT	305	GAA	E	Glutamic acid
+RT	306	AAC	N	Asparagine
+RT	307	AGA	R	Arginine
+RT	308	GAG	E	Glutamic acid
+RT	309	ATT	I	Isoleucine
+RT	310	CTA	L	Leucine
+RT	311	AAA	K	Lysine
+RT	312	GAA	E	Glutamic acid
+RT	313	CCA	P	Proline
+RT	314	GTA	V	Valine
+RT	315	CAT	H	Histidine
+RT	316	GGA	G	Glycine
+RT	317	GTG	V	Valine
+RT	318	TAT	Y	Tyrosine
+RT	319	TAT	Y	Tyrosine
+RT	320	GAC	D	Aspartic acid
+RT	321	CCA	P	Proline
+RT	322	TCA	S	Serine
+RT	323	AAA	K	Lysine
+RT	324	GAC	D	Aspartic acid
+RT	325	TTA	L	Leucine
+RT	326	ATA	I	Isoleucine
+RT	327	GCA	A	Alanine
+RT	328	GAA	E	Glutamic acid
+RT	329	ATA	I	Isoleucine
+RT	330	CAG	Q	Glutamine
+RT	331	AAG	K	Lysine
+RT	332	CAG	Q	Glutamine
+RT	333	GGG	G	Glycine
+RT	334	CAA	Q	Glutamine
+RT	335	GGC	G	Glycine
+RT	336	CAA	Q	Glutamine
+RT	337	TGG	W	Tryptophan
+RT	338	ACA	T	Threonine
+RT	339	TAT	Y	Tyrosine
+RT	340	CAA	Q	Glutamine
+RT	341	ATT	I	Isoleucine
+RT	342	TAT	Y	Tyrosine
+RT	343	CAA	Q	Glutamine
+RT	344	GAG	E	Glutamic acid
+RT	345	CCA	P	Proline
+RT	346	TTT	F	Phenylalanine
+RT	347	AAA	K	Lysine
+RT	348	AAT	N	Asparagine
+RT	349	CTG	L	Leucine
+RT	350	AAA	K	Lysine
+RT	351	ACA	T	Threonine
+RT	352	GGA	G	Glycine
+RT	353	AAA	K	Lysine
+RT	354	TAT	Y	Tyrosine
+RT	355	GCA	A	Alanine
+RT	356	AGA	R	Arginine
+RT	357	ATG	M	Methionine
+RT	358	AGG	R	Arginine
+RT	359	GGT	G	Glycine
+RT	360	GCC	A	Alanine
+RT	361	CAC	H	Histidine
+RT	362	ACT	T	Threonine
+RT	363	AAT	N	Asparagine
+RT	364	GAT	D	Aspartic acid
+RT	365	GTA	V	Valine
+RT	366	AAA	K	Lysine
+RT	367	CAA	Q	Glutamine
+RT	368	TTA	L	Leucine
+RT	369	ACA	T	Threonine
+RT	370	GAG	E	Glutamic acid
+RT	371	GCA	A	Alanine
+RT	372	GTG	V	Valine
+RT	373	CAA	Q	Glutamine
+RT	374	AAA	K	Lysine
+RT	375	ATA	I	Isoleucine
+RT	376	ACC	T	Threonine
+RT	377	ACA	T	Threonine
+RT	378	GAA	E	Glutamic acid
+RT	379	AGC	S	Serine
+RT	380	ATA	I	Isoleucine
+RT	381	GTA	V	Valine
+RT	382	ATA	I	Isoleucine
+RT	383	TGG	W	Tryptophan
+RT	384	GGA	G	Glycine
+RT	385	AAG	K	Lysine
+RT	386	ACT	T	Threonine
+RT	387	CCT	P	Proline
+RT	388	AAA	K	Lysine
+RT	389	TTT	F	Phenylalanine
+RT	390	AAA	K	Lysine
+RT	391	CTG	L	Leucine
+RT	392	CCC	P	Proline
+RT	393	ATA	I	Isoleucine
+RT	394	CAA	Q	Glutamine
+RT	395	AAG	K	Lysine
+RT	396	GAA	E	Glutamic acid
+RT	397	ACA	T	Threonine
+RT	398	TGG	W	Tryptophan
+RT	399	GAA	E	Glutamic acid
+RT	400	ACA	T	Threonine
+RT	401	TGG	W	Tryptophan
+RT	402	TGG	W	Tryptophan
+RT	403	ACA	T	Threonine
+RT	404	GAG	E	Glutamic acid
+RT	405	TAT	Y	Tyrosine
+RT	406	TGG	W	Tryptophan
+RT	407	CAA	Q	Glutamine
+RT	408	GCC	A	Alanine
+RT	409	ACC	T	Threonine
+RT	410	TGG	W	Tryptophan
+RT	411	ATT	I	Isoleucine
+RT	412	CCT	P	Proline
+RT	413	GAG	E	Glutamic acid
+RT	414	TGG	W	Tryptophan
+RT	415	GAG	E	Glutamic acid
+RT	416	TTT	F	Phenylalanine
+RT	417	GTT	V	Valine
+RT	418	AAT	N	Asparagine
+RT	419	ACC	T	Threonine
+RT	420	CCT	P	Proline
+RT	421	CCC	P	Proline
+RT	422	TTA	L	Leucine
+RT	423	GTG	V	Valine
+RT	424	AAA	K	Lysine
+RT	425	TTA	L	Leucine
+RT	426	TGG	W	Tryptophan
+RT	427	TAC	Y	Tyrosine
+RT	428	CAG	Q	Glutamine
+RT	429	TTA	L	Leucine
+RT	430	GAG	E	Glutamic acid
+RT	431	AAA	K	Lysine
+RT	432	GAA	E	Glutamic acid
+RT	433	CCC	P	Proline
+RT	434	ATA	I	Isoleucine
+RT	435	GTA	V	Valine
+RT	436	GGA	G	Glycine
+RT	437	GCA	A	Alanine
+RT	438	GAA	E	Glutamic acid
+RT	439	ACC	T	Threonine
+RT	440	TTC	F	Phenylalanine
+RT	441	TAT	Y	Tyrosine
+RT	442	GTA	V	Valine
+RT	443	GAT	D	Aspartic acid
+RT	444	GGG	G	Glycine
+RT	445	GCA	A	Alanine
+RT	446	GCT	A	Alanine
+RT	447	AAC	N	Asparagine
+RT	448	AGG	R	Arginine
+RT	449	GAG	E	Glutamic acid
+RT	450	ACT	T	Threonine
+RT	451	AAA	K	Lysine
+RT	452	TTA	L	Leucine
+RT	453	GGA	G	Glycine
+RT	454	AAA	K	Lysine
+RT	455	GCA	A	Alanine
+RT	456	GGA	G	Glycine
+RT	457	TAT	Y	Tyrosine
+RT	458	GTT	V	Valine
+RT	459	ACT	T	Threonine
+RT	460	AAT	N	Asparagine
+RT	461	AGA	R	Arginine
+RT	462	GGA	G	Glycine
+RT	463	AGA	R	Arginine
+RT	464	CAA	Q	Glutamine
+RT	465	AAA	K	Lysine
+RT	466	GTT	V	Valine
+RT	467	GTC	V	Valine
+RT	468	ACC	T	Threonine
+RT	469	CTA	L	Leucine
+RT	470	ACT	T	Threonine
+RT	471	GAC	D	Aspartic acid
+RT	472	ACA	T	Threonine
+RT	473	ACA	T	Threonine
+RT	474	AAT	N	Asparagine
+RT	475	CAG	Q	Glutamine
+RT	476	AAG	K	Lysine
+RT	477	ACT	T	Threonine
+RT	478	GAG	E	Glutamic acid
+RT	479	TTA	L	Leucine
+RT	480	CAA	Q	Glutamine
+RT	481	GCA	A	Alanine
+RT	482	ATT	I	Isoleucine
+RT	483	TAT	Y	Tyrosine
+RT	484	CTA	L	Leucine
+RT	485	GCT	A	Alanine
+RT	486	TTG	L	Leucine
+RT	487	CAG	Q	Glutamine
+RT	488	GAT	D	Aspartic acid
+RT	489	TCG	S	Serine
+RT	490	GGA	G	Glycine
+RT	491	TTA	L	Leucine
+RT	492	GAA	E	Glutamic acid
+RT	493	GTA	V	Valine
+RT	494	AAC	N	Asparagine
+RT	495	ATA	I	Isoleucine
+RT	496	GTA	V	Valine
+RT	497	ACA	T	Threonine
+RT	498	GAC	D	Aspartic acid
+RT	499	TCA	S	Serine
+RT	500	CAA	Q	Glutamine
+RT	501	TAT	Y	Tyrosine
+RT	502	GCA	A	Alanine
+RT	503	TTA	L	Leucine
+RT	504	GGA	G	Glycine
+RT	505	ATC	I	Isoleucine
+RT	506	ATT	I	Isoleucine
+RT	507	CAA	Q	Glutamine
+RT	508	GCA	A	Alanine
+RT	509	CAA	Q	Glutamine
+RT	510	CCA	P	Proline
+RT	511	GAT	D	Aspartic acid
+RT	512	CAA	Q	Glutamine
+RT	513	AGT	S	Serine
+RT	514	GAA	E	Glutamic acid
+RT	515	TCA	S	Serine
+RT	516	GAG	E	Glutamic acid
+RT	517	TTA	L	Leucine
+RT	518	GTC	V	Valine
+RT	519	AAT	N	Asparagine
+RT	520	CAA	Q	Glutamine
+RT	521	ATA	I	Isoleucine
+RT	522	ATA	I	Isoleucine
+RT	523	GAG	E	Glutamic acid
+RT	524	CAG	Q	Glutamine
+RT	525	TTA	L	Leucine
+RT	526	ATA	I	Isoleucine
+RT	527	AAA	K	Lysine
+RT	528	AAG	K	Lysine
+RT	529	GAA	E	Glutamic acid
+RT	530	AAG	K	Lysine
+RT	531	GTC	V	Valine
+RT	532	TAT	Y	Tyrosine
+RT	533	CTG	L	Leucine
+RT	534	GCA	A	Alanine
+RT	535	TGG	W	Tryptophan
+RT	536	GTA	V	Valine
+RT	537	CCA	P	Proline
+RT	538	GCA	A	Alanine
+RT	539	CAC	H	Histidine
+RT	540	AAA	K	Lysine
+RT	541	GGA	G	Glycine
+RT	542	ATT	I	Isoleucine
+RT	543	GGA	G	Glycine
+RT	544	GGA	G	Glycine
+RT	545	AAT	N	Asparagine
+RT	546	GAA	E	Glutamic acid
+RT	547	CAA	Q	Glutamine
+RT	548	GTA	V	Valine
+RT	549	GAT	D	Aspartic acid
+RT	550	AAA	K	Lysine
+RT	551	TTA	L	Leucine
+RT	552	GTC	V	Valine
+RT	553	AGT	S	Serine
+RT	554	GCT	A	Alanine
+RT	555	GGA	G	Glycine
+RT	556	ATC	I	Isoleucine
+RT	557	AGG	R	Arginine
+RT	558	AAA	K	Lysine
+RT	559	GTA	V	Valine
+RT	560	CTA	L	Leucine
+Integrase	1	TTA	L	Leucine
+Integrase	2	GAT	D	Aspartic acid
+Integrase	3	GGA	G	Glycine
+Integrase	4	ATA	I	Isoleucine
+Integrase	5	GAT	D	Aspartic acid
+Integrase	6	AAG	K	Lysine
+Integrase	7	GCC	A	Alanine
+Integrase	8	CAA	Q	Glutamine
+Integrase	9	GAT	D	Aspartic acid
+Integrase	10	GAA	E	Glutamic acid
+Integrase	11	CAT	H	Histidine
+Integrase	12	GAG	E	Glutamic acid
+Integrase	13	AAA	K	Lysine
+Integrase	14	TAT	Y	Tyrosine
+Integrase	15	CAC	H	Histidine
+Integrase	16	AGT	S	Serine
+Integrase	17	AAT	N	Asparagine
+Integrase	18	TGG	W	Tryptophan
+Integrase	19	AGA	R	Arginine
+Integrase	20	GCA	A	Alanine
+Integrase	21	ATG	M	Methionine
+Integrase	22	GCT	A	Alanine
+Integrase	23	AGT	S	Serine
+Integrase	24	GAT	D	Aspartic acid
+Integrase	25	TTT	F	Phenylalanine
+Integrase	26	AAC	N	Asparagine
+Integrase	27	CTG	L	Leucine
+Integrase	28	CCA	P	Proline
+Integrase	29	CCT	P	Proline
+Integrase	30	GTA	V	Valine
+Integrase	31	GTA	V	Valine
+Integrase	32	GCA	A	Alanine
+Integrase	33	AAA	K	Lysine
+Integrase	34	GAA	E	Glutamic acid
+Integrase	35	ATA	I	Isoleucine
+Integrase	36	GTA	V	Valine
+Integrase	37	GCC	A	Alanine
+Integrase	38	AGC	S	Serine
+Integrase	39	TGT	C	Cysteine
+Integrase	40	GAT	D	Aspartic acid
+Integrase	41	AAA	K	Lysine
+Integrase	42	TGT	C	Cysteine
+Integrase	43	CAG	Q	Glutamine
+Integrase	44	CTA	L	Leucine
+Integrase	45	AAA	K	Lysine
+Integrase	46	GGA	G	Glycine
+Integrase	47	GAA	E	Glutamic acid
+Integrase	48	GCC	A	Alanine
+Integrase	49	ATG	M	Methionine
+Integrase	50	CAT	H	Histidine
+Integrase	51	GGA	G	Glycine
+Integrase	52	CAA	Q	Glutamine
+Integrase	53	GTA	V	Valine
+Integrase	54	GAC	D	Aspartic acid
+Integrase	55	TGT	C	Cysteine
+Integrase	56	AGT	S	Serine
+Integrase	57	CCA	P	Proline
+Integrase	58	GGA	G	Glycine
+Integrase	59	ATA	I	Isoleucine
+Integrase	60	TGG	W	Tryptophan
+Integrase	61	CAA	Q	Glutamine
+Integrase	62	CTA	L	Leucine
+Integrase	63	GAT	D	Aspartic acid
+Integrase	64	TGT	C	Cysteine
+Integrase	65	ACA	T	Threonine
+Integrase	66	CAT	H	Histidine
+Integrase	67	TTA	L	Leucine
+Integrase	68	GAA	E	Glutamic acid
+Integrase	69	GGA	G	Glycine
+Integrase	70	AAA	K	Lysine
+Integrase	71	GTT	V	Valine
+Integrase	72	ATC	I	Isoleucine
+Integrase	73	CTG	L	Leucine
+Integrase	74	GTA	V	Valine
+Integrase	75	GCA	A	Alanine
+Integrase	76	GTT	V	Valine
+Integrase	77	CAT	H	Histidine
+Integrase	78	GTA	V	Valine
+Integrase	79	GCC	A	Alanine
+Integrase	80	AGT	S	Serine
+Integrase	81	GGA	G	Glycine
+Integrase	82	TAT	Y	Tyrosine
+Integrase	83	ATA	I	Isoleucine
+Integrase	84	GAA	E	Glutamic acid
+Integrase	85	GCA	A	Alanine
+Integrase	86	GAA	E	Glutamic acid
+Integrase	87	GTT	V	Valine
+Integrase	88	ATT	I	Isoleucine
+Integrase	89	CCA	P	Proline
+Integrase	90	GCA	A	Alanine
+Integrase	91	GAA	E	Glutamic acid
+Integrase	92	ACA	T	Threonine
+Integrase	93	GGG	G	Glycine
+Integrase	94	CAG	Q	Glutamine
+Integrase	95	GAA	E	Glutamic acid
+Integrase	96	ACA	T	Threonine
+Integrase	97	GCA	A	Alanine
+Integrase	98	TAT	Y	Tyrosine
+Integrase	99	TTT	F	Phenylalanine
+Integrase	100	CTT	L	Leucine
+Integrase	101	TTA	L	Leucine
+Integrase	102	AAA	K	Lysine
+Integrase	103	TTA	L	Leucine
+Integrase	104	GCA	A	Alanine
+Integrase	105	GGA	G	Glycine
+Integrase	106	AGA	R	Arginine
+Integrase	107	TGG	W	Tryptophan
+Integrase	108	CCA	P	Proline
+Integrase	109	GTA	V	Valine
+Integrase	110	AAA	K	Lysine
+Integrase	111	ACA	T	Threonine
+Integrase	112	ATA	I	Isoleucine
+Integrase	113	CAT	H	Histidine
+Integrase	114	ACT	T	Threonine
+Integrase	115	GAC	D	Aspartic acid
+Integrase	116	AAT	N	Asparagine
+Integrase	117	GGC	G	Glycine
+Integrase	118	AGC	S	Serine
+Integrase	119	AAT	N	Asparagine
+Integrase	120	TTC	F	Phenylalanine
+Integrase	121	ACC	T	Threonine
+Integrase	122	GGT	G	Glycine
+Integrase	123	GCT	A	Alanine
+Integrase	124	ACG	T	Threonine
+Integrase	125	GTT	V	Valine
+Integrase	126	AGG	R	Arginine
+Integrase	127	GCC	A	Alanine
+Integrase	128	GCC	A	Alanine
+Integrase	129	TGT	C	Cysteine
+Integrase	130	TGG	W	Tryptophan
+Integrase	131	TGG	W	Tryptophan
+Integrase	132	GCG	A	Alanine
+Integrase	133	GGA	G	Glycine
+Integrase	134	ATC	I	Isoleucine
+Integrase	135	AAG	K	Lysine
+Integrase	136	CAG	Q	Glutamine
+Integrase	137	GAA	E	Glutamic acid
+Integrase	138	TTT	F	Phenylalanine
+Integrase	139	GGA	G	Glycine
+Integrase	140	ATT	I	Isoleucine
+Integrase	141	CCC	P	Proline
+Integrase	142	TAC	Y	Tyrosine
+Integrase	143	AAT	N	Asparagine
+Integrase	144	CCC	P	Proline
+Integrase	145	CAA	Q	Glutamine
+Integrase	146	AGT	S	Serine
+Integrase	147	CAA	Q	Glutamine
+Integrase	148	GGA	G	Glycine
+Integrase	149	GTA	V	Valine
+Integrase	150	GTA	V	Valine
+Integrase	151	GAA	E	Glutamic acid
+Integrase	152	TCT	S	Serine
+Integrase	153	ATG	M	Methionine
+Integrase	154	AAT	N	Asparagine
+Integrase	155	AAA	K	Lysine
+Integrase	156	GAA	E	Glutamic acid
+Integrase	157	TTA	L	Leucine
+Integrase	158	AAG	K	Lysine
+Integrase	159	AAA	K	Lysine
+Integrase	160	ATT	I	Isoleucine
+Integrase	161	ATA	I	Isoleucine
+Integrase	162	GGA	G	Glycine
+Integrase	163	CAG	Q	Glutamine
+Integrase	164	GTA	V	Valine
+Integrase	165	AGA	R	Arginine
+Integrase	166	GAT	D	Aspartic acid
+Integrase	167	CAG	Q	Glutamine
+Integrase	168	GCT	A	Alanine
+Integrase	169	GAA	E	Glutamic acid
+Integrase	170	CAT	H	Histidine
+Integrase	171	CTT	L	Leucine
+Integrase	172	AAG	K	Lysine
+Integrase	173	ACA	T	Threonine
+Integrase	174	GCA	A	Alanine
+Integrase	175	GTA	V	Valine
+Integrase	176	CAA	Q	Glutamine
+Integrase	177	ATG	M	Methionine
+Integrase	178	GCA	A	Alanine
+Integrase	179	GTA	V	Valine
+Integrase	180	TTC	F	Phenylalanine
+Integrase	181	ATC	I	Isoleucine
+Integrase	182	CAC	H	Histidine
+Integrase	183	AAT	N	Asparagine
+Integrase	184	TTT	F	Phenylalanine
+Integrase	185	AAA	K	Lysine
+Integrase	186	AGA	R	Arginine
+Integrase	187	AAA	K	Lysine
+Integrase	188	GGG	G	Glycine
+Integrase	189	GGG	G	Glycine
+Integrase	190	ATT	I	Isoleucine
+Integrase	191	GGG	G	Glycine
+Integrase	192	GGG	G	Glycine
+Integrase	193	TAC	Y	Tyrosine
+Integrase	194	AGT	S	Serine
+Integrase	195	GCA	A	Alanine
+Integrase	196	GGG	G	Glycine
+Integrase	197	GAA	E	Glutamic acid
+Integrase	198	AGA	R	Arginine
+Integrase	199	ATA	I	Isoleucine
+Integrase	200	GTA	V	Valine
+Integrase	201	GAC	D	Aspartic acid
+Integrase	202	ATA	I	Isoleucine
+Integrase	203	ATA	I	Isoleucine
+Integrase	204	GCA	A	Alanine
+Integrase	205	ACA	T	Threonine
+Integrase	206	GAC	D	Aspartic acid
+Integrase	207	ATA	I	Isoleucine
+Integrase	208	CAA	Q	Glutamine
+Integrase	209	ACT	T	Threonine
+Integrase	210	AAA	K	Lysine
+Integrase	211	GAA	E	Glutamic acid
+Integrase	212	TTA	L	Leucine
+Integrase	213	CAA	Q	Glutamine
+Integrase	214	AAA	K	Lysine
+Integrase	215	CAA	Q	Glutamine
+Integrase	216	ATT	I	Isoleucine
+Integrase	217	ACA	T	Threonine
+Integrase	218	AAA	K	Lysine
+Integrase	219	ATT	I	Isoleucine
+Integrase	220	CAA	Q	Glutamine
+Integrase	221	AAT	N	Asparagine
+Integrase	222	TTT	F	Phenylalanine
+Integrase	223	CGG	R	Arginine
+Integrase	224	GTT	V	Valine
+Integrase	225	TAT	Y	Tyrosine
+Integrase	226	TAC	Y	Tyrosine
+Integrase	227	AGG	R	Arginine
+Integrase	228	GAC	D	Aspartic acid
+Integrase	229	AGC	S	Serine
+Integrase	230	AGA	R	Arginine
+Integrase	231	AAT	N	Asparagine
+Integrase	232	CCA	P	Proline
+Integrase	233	CTT	L	Leucine
+Integrase	234	TGG	W	Tryptophan
+Integrase	235	AAA	K	Lysine
+Integrase	236	GGA	G	Glycine
+Integrase	237	CCA	P	Proline
+Integrase	238	GCA	A	Alanine
+Integrase	239	AAG	K	Lysine
+Integrase	240	CTC	L	Leucine
+Integrase	241	CTC	L	Leucine
+Integrase	242	TGG	W	Tryptophan
+Integrase	243	AAA	K	Lysine
+Integrase	244	GGT	G	Glycine
+Integrase	245	GAA	E	Glutamic acid
+Integrase	246	GGG	G	Glycine
+Integrase	247	GCA	A	Alanine
+Integrase	248	GTA	V	Valine
+Integrase	249	GTA	V	Valine
+Integrase	250	ATA	I	Isoleucine
+Integrase	251	CAA	Q	Glutamine
+Integrase	252	GAT	D	Aspartic acid
+Integrase	253	AAT	N	Asparagine
+Integrase	254	AGT	S	Serine
+Integrase	255	GAC	D	Aspartic acid
+Integrase	256	ATA	I	Isoleucine
+Integrase	257	AAA	K	Lysine
+Integrase	258	GTA	V	Valine
+Integrase	259	GTG	V	Valine
+Integrase	260	CCA	P	Proline
+Integrase	261	AGA	R	Arginine
+Integrase	262	AGA	R	Arginine
+Integrase	263	AAA	K	Lysine
+Integrase	264	GCA	A	Alanine
+Integrase	265	AAG	K	Lysine
+Integrase	266	ATC	I	Isoleucine
+Integrase	267	ATT	I	Isoleucine
+Integrase	268	AGG	R	Arginine
+Integrase	269	GAT	D	Aspartic acid
+Integrase	270	TAT	Y	Tyrosine
+Integrase	271	GGA	G	Glycine
+Integrase	272	AAA	K	Lysine
+Integrase	273	CAG	Q	Glutamine
+Integrase	274	ATG	M	Methionine
+Integrase	275	GCA	A	Alanine
+Integrase	276	GGT	G	Glycine
+Integrase	277	GAT	D	Aspartic acid
+Integrase	278	GAT	D	Aspartic acid
+Integrase	279	TGT	C	Cysteine
+Integrase	280	GTG	V	Valine
+Integrase	281	GCA	A	Alanine
+Integrase	282	AGT	S	Serine
+Integrase	283	AGA	R	Arginine
+Integrase	284	CAG	Q	Glutamine
+Integrase	285	GAT	D	Aspartic acid
+Integrase	286	GAG	E	Glutamic acid
+Integrase	287	GAT	D	Aspartic acid
+Integrase	288	TAG	Stop	Stop codons
