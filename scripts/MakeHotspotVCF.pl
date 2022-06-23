@@ -84,6 +84,7 @@ my @tsv = glob "$score_tsv_dir/*.tsv";
 my %aa_tsv;
 
 for my $file (@tsv){
+	#print "$file\n";
 	my $name_tmp = basename($file);
 	my $name     = (split /\_/, $name_tmp)[0]; # ScoresINSTI
 
@@ -110,8 +111,8 @@ for my $file (@tsv){
 		chomp;
 		my @arr = split /\t+/;
 		my $aa = $arr[0];
-		next if ($arr =~ /\+/);
-		next if ($arr =~ /del/ || $arr =~ /ins/); # only for SNP
+		next if ($aa =~ /\+/);
+		next if ($aa =~ /del/ || $aa =~ /ins/); # only for SNP
 		my $pos = $arr[1]; # 41
 		push @{$aa_tsv{$p}{$pos}}, $aa; # RT => {65 => [K65E,K65N]}
 	}
@@ -121,7 +122,7 @@ for my $file (@tsv){
 
 my @prot = qw/Protease RT Integrase/;
 for my $p (@prot){
-	my @pos = sort {$a <=> $b keys %{$aa_tsv{$p}}}; # POS:1-N
+	my @pos = sort ({$a <=> $b} keys %{$aa_tsv{$p}}); # POS:1-N
 	for my $pos (@pos){
 		# 每个位置可能有多个突变AA
 		my $aa_var_aref = $aa_tsv{$p}{$pos};
@@ -144,9 +145,11 @@ for my $p (@prot){
 		my @var_dna_seq = keys %var_dna_seq;
 		my $var_dna_seq = join(",",@var_dna_seq); # DNA碱基
 
-		my $ref_pos = (split /\t/, $aa_tsv{$p}{$pos})[0]; # 参考基因组位置
-		my $ref_seq = (split /\t/, $aa_tsv{$p}{$pos})[1]; # 参考基因组碱基
+		my $ref_info = $drug_aa{$p}{$pos};
+		my $ref_pos = (split /\t/, $ref_info)[0]; # 参考基因组位置
+		my $ref_seq = (split /\t/, $ref_info)[1]; # 参考基因组碱基
 		my $val = join(",",@var); # 所有可能的唯一AA突变列表
+		#print "$ref_info\n";
 		print "$p\t$val\t$ref_pos\t$ref_seq\t$var_dna_seq\n";
 	}
 }
