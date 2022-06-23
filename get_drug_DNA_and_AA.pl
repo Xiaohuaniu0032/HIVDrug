@@ -37,6 +37,8 @@ $AA_Pos{"Integrase"} = "4230,5096";
 
 my @AA = qw/Protease RT Integrase/;
 
+print "Protein\tAA.Pos\tDNA.Pos\tDNA\tAA\tAA.Long\n";
+
 for my $aa (@AA){
 	my $pos = $AA_Pos{$aa};
 	my @pos = split /\,/, $pos;
@@ -51,6 +53,7 @@ for my $aa (@AA){
 	#print "$seq\n";
 	my $len = length($seq);
 
+	my $DNAPosStart = $sp; # start pos
 	my $idx = 0;
 	for (my $i=0; $i<=$len-3; $i+=3){
 		$idx += 1;
@@ -62,8 +65,9 @@ for my $aa (@AA){
 		}else{
 			$val = "NA";
 		}
-		
-		print "$aa\t$idx\t$codon\t$val\n";
+		my $DNAPosEnd = $DNAPosStart + 3 - 1;
+		print "$aa\t$idx\t$DNAPosStart\-$DNAPosEnd\t$codon\t$val\n";
+		$DNAPosStart += 3;
 	}
 
 }
