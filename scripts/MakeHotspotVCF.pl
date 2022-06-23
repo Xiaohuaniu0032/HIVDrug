@@ -37,7 +37,7 @@ use FindBin qw/$Bin/;
 # K03455.1/4426/Integrase,T66A,T66I,T66K/C/T,A
 # K03455.1/4427/Integrase,T66A,T66I,T66K/A/T,C,G
 
-my ($drug_aa_list_file,$score_tsv_dir) = @ARGV;
+my ($drug_aa_list_file,$score_tsv_dir,$outdir) = @ARGV;
 
 # ScoresINSTI_1655774833308.tsv     # Integrase
 # ScoresNNRTI_1655774829129.tsv     # RT
@@ -119,6 +119,8 @@ for my $file (@tsv){
 	close IN;
 }
 
+my $temp_file = "$outdir/HS.temp.txt";
+open TEMP, ">$temp_file" or die;
 
 my @prot = qw/Protease RT Integrase/;
 for my $p (@prot){
@@ -150,6 +152,75 @@ for my $p (@prot){
 		my $ref_seq = (split /\t/, $ref_info)[1]; # 参考基因组碱基
 		my $val = join(",",@var); # 所有可能的唯一AA突变列表
 		#print "$ref_info\n";
-		print "$p\t$val\t$ref_pos\t$ref_seq\t$var_dna_seq\n";
+		print TEMP "$p\t$val\t$ref_pos\t$ref_seq\t$var_dna_seq\n";
 	}
 }
+close TEMP;
+
+my $hs_file = "$outdir/HIV.drug.HS.vcf";
+open O, ">$hs_file" or die;
+print O "\#CHROM\tPOS\tID\tREF\tALT\n";
+
+# output format
+# Chr/Pos/ID/Ref/Alt
+# K03455.1/4380/Integrase,H51Y/C/T
+# K03455.1/4382/Integrase,H51Y/T/C
+# K03455.1/4425/Integrase,T66A,T66I,T66K/A/G
+# K03455.1/4426/Integrase,T66A,T66I,T66K/C/T,A
+# K03455.1/4427/Integrase,T66A,T66I,T66K/A/T,C,G
+
+
+sub uniq_base{
+	my ($ref_base,$alt_codon,$idx) = @_; # A; TTC,TTT
+	my %uniq_base;
+	if ($alt_codon =~ /\,/){
+		my @alt_codon = split /\,/, $alt_codon;
+		for my $v (@alt_codon){
+			my @v = split //, $v;
+			my $base = $v[$idx]; # 0-based
+			$uniq_base{$base} += 1;
+		}
+	}
+	my @base = keys %uniq_base;
+	
+	return(\@base);
+}
+
+open IN, "$temp_file" or die;
+while (<IN>){
+	chomp;
+	my @arr = split /\t/;
+	my $p = $arr[0];
+	my @pos = split /\-/, $arr[2];
+	my $start = $pos[0];
+	my $end = $pos[1];
+	
+	my $ref = $arr[-2];
+	my @ref = split //, $ref;
+
+	my @alt = split /\,/, $arr[-1];
+
+	my $ID = $arr[0].';'.$arr[1].';'.$arr[2].';'.$arr[3].';'.$arr[4];
+
+	
+	for my $idx (0..2){
+		my $ref_base = $ref[$idx];
+		my $ref_pos = $start + $idx;
+		my $wait_base_aref = uniq_base($ref_base,$arr[-1],$idx);
+		my @wait_base = @{$wait_base_aref};
+
+		my @real_alt_base;
+		for my $base (@wait_base){
+			if ($base ne $ref_base){
+				push @real_alt_base, $base;
+			}
+		}
+
+		if (scalar(@real_alt_base) > 0){
+			my $v = join(",", @real_alt_base);
+			print O "K03455.1\t$ref_pos\t$ID\t$ref_base\t$v\n";
+		}
+	}
+}
+close IN;
+close O;
