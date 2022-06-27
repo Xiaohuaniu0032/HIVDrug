@@ -5,6 +5,7 @@ my ($bed) = @ARGV;
 my $shift_pos = 454;
 
 # WG00471_HIV_pol.20201027_Designed.bed
+my $ref_name = "K03455.1";
 
 open IN, "$bed" or die;
 my $h = <IN>;
@@ -18,6 +19,6 @@ while (<IN>){
 
 	my $new_sp = $sp + $shift_pos;
 	my $new_ep = $new_sp + $len;
-	print "$arr[0]\t$new_sp\t$new_ep\t$arr[3]\t$arr[4]\t$arr[5]\n";
+	print "$ref_name\t$new_sp\t$new_ep\t$arr[3]\t$arr[4]\t$arr[5]\n";
 }
 close IN;
