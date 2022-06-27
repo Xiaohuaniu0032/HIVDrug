@@ -1,0 +1,14 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ViralProj15476
+#!genome-build-accession NCBI_Assembly:GCF_000864765.1
+##sequence-region NC_001802.1 1 9181
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11676
+K03455.1	RefSeq	gene	2253	2549	.	+	.	ID=gene0;Dbxref=GeneID:1;Name=PR;gbkey=Gene;gene=PR;gene_biotype=protein_coding;locus_tag=HIV1PR
+K03455.1	RefSeq	CDS	2253	2549	.	+	0	ID=cds0;Parent=gene0;Dbxref=PR,GeneID:1;Name=PR;Note=PR;exception=PR;gbkey=CDS;gene=PR;product=PR;protein_id=NP_057849.4
+K03455.1	RefSeq	gene	2550	4229	.	+	.	ID=gene1;Dbxref=GeneID:2;Name=RT;gbkey=Gene;gene=RT;gene_biotype=protein_coding;locus_tag=HIV1RT
+K03455.1	RefSeq	CDS	2550	4229	.	+	0	ID=cds1;Parent=gene1;Dbxref=RT,GeneID:2;Name=RT;gbkey=CDS;gene=RT;product=RT;protein_id=RT
+K03455.1	RefSeq	gene	4230	5093	.	+	.	ID=gene2;Dbxref=GeneID:3;Name=IN;gbkey=Gene;gene=IN;gene_biotype=protein_coding;locus_tag=HIV1IN
+K03455.1	RefSeq	CDS	4230	5093	.	+	0	ID=cds2;Parent=gene2;Dbxref=IN,GeneID:3;Name=IN;gbkey=CDS;gene=IN;product=IN;protein_id=IN
+K03455.1	RefSeq	gene	2255	3326	.	+	.	ID=gene3;Dbxref=GeneID:4;Name=plan7;gbkey=Gene;gene=plan7;gene_biotype=protein_coding;locus_tag=plan7
