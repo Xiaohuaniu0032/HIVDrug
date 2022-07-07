@@ -64,7 +64,7 @@ while (<IN>){
 			my $alt_base = $alt_arr[$i];
 			if ($ref_base ne $alt_base){
 				my $rel_pos = $pos + $i;
-				my $var = "$rel_pos\t$ref_base\t$alt_base";
+				my $var = "$rel_pos\t$ref_base\t$alt_base"; # 如果热点SNP未检出但Novel检出则会显示两行
 				push @{$allele_var{$var}}, $val;
 			}
 		}
@@ -77,19 +77,20 @@ close IN;
 
 
 my %pileup_var;
+# Sample  Chr     Pos     Ref     Alt     AltNum  Depth   AltAlleleFrequency
 open IN, "$pileup_file" or die;
 <IN>;
 while (<IN>){
 	chomp;
 	my @arr = split /\t/;
-	my $ref = $arr[2];
-	my $alt = $arr[3];
+	my $ref = $arr[3];
+	my $alt = $arr[4];
 	
 	my $ref_len = length($ref);
 	my $alt_len = length($alt);
 	next if ($ref_len != $alt_len); # skip indel
 	
-	my $var = "$arr[1]\t$ref\t$alt"; # pos/ref/alt
+	my $var = "$arr[2]\t$ref\t$alt"; # pos/ref/alt
 	$pileup_var{$var} = $arr[-1] * 100;
 }
 close IN;
