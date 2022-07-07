@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use Data::Dumper;
 
 my ($allele_file,$pileup_file) = @ARGV;
 
@@ -17,6 +18,9 @@ while (<IN>){
 	# alleles.xls文件中，有些位点会有重复
 	# HIV-1   2806    T       C       Heterozygous    -       38.5    5864.9  -       SNP     Novel
 	# HIV-1   2806    TAA     CAG     Heterozygous    -       60.9    5864.9  -       MNP     Novel
+	
+	my $allele_call = $arr[4]; # Heterozygous/Homozygous/No Call/Absent
+	next if ($allele_call eq "No Call" or $allele_call eq "Absent");
 
 	my $type = $arr[9]; # MNP/SNP
 	if ($type eq "SNP"){
@@ -51,13 +55,15 @@ print "$h\tvariantCaller_Freq\n";
 while (<IN>){
 	chomp;
 	my @arr = split /\t/;
-	my $ref = $arr[2];
-	my $alt = $arr[3];
+	my $ref = $arr[3];
+	my $alt = $arr[4];
 	my $ref_len = length($ref);
 	my $alt_len = length($alt);
+	next if ($alt eq "ref-homo"); # only compare var
 	next if ($ref_len != $alt_len); # skip indel
-	if ($ref_len == 1 and $alt_len == 1){
-		my $var = "$arr[1]\t$ref\t$alt"; # pos/ref/alt
+	
+	if (($ref_len == 1 and $alt_len == 1)){
+		my $var = "$arr[2]\t$ref\t$alt"; # pos/ref/alt
 		if (exists $allele_var{$var}){
 			my @tvc_freq = @{$allele_var{$var}};
 			my $tvc_freq = join(";",@tvc_freq);
