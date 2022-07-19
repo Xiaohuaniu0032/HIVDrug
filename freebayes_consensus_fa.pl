@@ -193,6 +193,25 @@ sub process_ref_line{
 	}
 }
 
+sub process_var_line{
+	my ($vcf_line) = @_;
+	
+
+}
+
+sub process_pass_allele{
+	my ($pass_allele_aref) = @_;
+
+}
+
+sub extend_base_for_left_cons{
+	#
+}
+
+sub extend_base_for_right_cons{
+	# 
+}
+
 # 4310位置后面应该紧跟4311,但VCF文件中下一个位置是从4312开始
 # 这种特殊情况需要考虑,否则会出现遗漏 
 
@@ -255,6 +274,31 @@ while (<GVCF>){
 		}
 	}else{
 		# alt allele
+		if ($processed_var_num == 0){
+			# 第一行
+			&process_var_line($_);
+		}else{
+			# 检查前一个变异位点
+			my $former_var_end_pos = &get_former_end_pos(\@processed_var);
+			my $exp_pos = $former_var_end_pos + 1;
+			if ($pos == $exp_pos){
+				# 位置正确
+				&process_var_line($_);
+			}else{
+				if ($pos - $former_var_end_pos > 1){
+					# 正常情况应该是相差1
+					# 跳空的位置补上ref base
+
+
+
+					push @cons_fa, $ref_base;
+				}else{
+					# 如果前一个变异最右端位置cover到了部分或者全部当前的变异,该如何处理
+					# 暂时没有发现这种情况
+				}
+				&process_var_line($_);
+			}
+		}
 		my @gt_info = split /\:/, $arr[-1]; # GT:DP:AD:RO:QR:AO:QA:GL => 0/0:5005:4752,171:4752:104017:171:1740:0,-1326.07,-8172.33
 		my $gt = $gt_info[0];
 		my $depth = $gt_info[1];
@@ -270,6 +314,9 @@ while (<GVCF>){
 		my @allele_depth = split /\,/, $gt_info[2]; # 4752,171 (one alt allele, first '4752' is the ref allele depth) or 27,187,4821 (two alt alleles)
 		
 		my @pass_allele;
+
+		# 第一步:生成pass_allele
+		# 第二部:根据pass_allele,生成cons fa
 		
 		my %alt_allele_depth; # 记录alt allele的深度信息
 
