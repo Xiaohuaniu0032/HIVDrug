@@ -19,7 +19,7 @@ GetOptions(
 	"samtools:s"    => \$samtools_bin,       # Default: /usr/bin/samtools
 	"d:i"           => \$depth_cutoff,       # Default: 20
 	"snp_f:f"       => \$snp_freq_cutoff,    # Default: 0.05 (5%)
-	"indel_f:f"      => \$indel_freq_cutoff,  # Default: 0.6 (60%)
+	"indel_f:f"     => \$indel_freq_cutoff,  # Default: 0.6 (60%)
 	"outdir:s"      => \$outdir,             # NEED
     ) or die "unknown args\n";
 
