@@ -6,7 +6,9 @@ use Data::Dumper;
 use FindBin qw/$Bin/;
 use List::Util qw(sum);
 
-
+# 2022-7-20
+# longfei.fu@thermofisher.com
+# 601435543@qq.com
 
 my ($gvcf,$ref_fa,$target_bed,$samtools_bin,$depth_cutoff,$snp_freq_cutoff,$indel_freq_cutoff,$outdir);
 
@@ -195,7 +197,7 @@ sub process_ref_line{
 
 sub process_var_line{
 	my ($vcf_line) = @_;
-	
+
 
 }
 
