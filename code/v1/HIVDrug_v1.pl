@@ -53,6 +53,10 @@ if (!-d "$outdir/$name/IRMA"){
 	`mkdir -p $outdir/$name/IRMA`;
 }
 
+if (!-d "$outdir/$name/freebayesConsensus"){
+	`mkdir -p $outdir/$name/freebayesConsensus`;
+}
+
 my $runsh = "$outdir/$name/run\_$name.sh";
 
 open O, ">$runsh" or die;
@@ -71,6 +75,11 @@ for my $p (@ploidy){
 	#print O "$freebayes --bam $bam --fasta-reference $ref -t $merged_bed --vcf $outdir/$name/freebayes/$name\.freebayes.$pp\.vcf -F 0.02 -C 1 --ploidy $p --pooled-continuous --gvcf $outdir/$name/freebayes/$name\.freebayes.$pp\.gvcf\n\n";
 	print O "$freebayes --bam $bam --fasta-reference $ref -t $merged_bed -F 0.02 -C 1 --ploidy $p --pooled-continuous --gvcf \>$outdir/$name/freebayes/$name\.freebayes.$pp\.gvcf\n\n";
 }
+
+print O "\# freebayesConsensus\n";
+my $freebayes_gvcf = "$outdir/$name/freebayes/$name\.freebayes.ploidy2.gvcf";
+print O "perl /data/fulongfei/git_repo/HIVDrug/freebayes_consensus_fa.pl -gvcf $freebayes_gvcf -ref $ref -bed $merged_bed -d 20 -snp_f 0.2 -indel_f 0.6 -outdir $outdir/$name/freebayesConsensus\n\n";
+
 
 print O "\# pileup2vaf\n";
 print O "$python3 /data/fulongfei/git_repo/pileup2vaf/pileup2vaf.py -bam $bam -fa $ref -bed /data/fulongfei/analysis/hiv/re_analysis_new_ref/POL.bed -od $outdir/$name/pileup2vaf -n $name\n\n";
