@@ -90,6 +90,105 @@ $iupac_code_dict{"CA"} = "M";
 
 
 my @cons_fa;
+my @processed_var;
+
+open GVCF, "$gvcf" or die;
+while (<GVCF>){
+	chomp;
+	next if (/^\#/);
+	next if (/^$/);
+	my @arr = split /\t/;
+	my $ref = $arr[0];
+	my $pos = $arr[1];
+	my $ref_allele = $arr[3];
+	my $alt_allele = $arr[4];
+	my $QUAL = $arr[5];
+
+	my $ref_allele_len = length($ref_allele);
+	my $processed_var_num = scalar(@processed_var);
+
+	if ($alt_allele =~ /\*/){
+		# ref allele
+		if ($processed_var_num == 0){
+			# 第一行
+			&process_ref_line($_,\@cons_fa);
+		}else{
+			# 检查前一个变异位点
+			my $former_var_end_pos = &get_former_end_pos(\@processed_var);
+			my $exp_pos = $former_var_end_pos + 1;
+			if ($pos == $exp_pos){
+				# 位置正确
+				&process_ref_line($_,\@cons_fa);
+			}else{
+				if ($pos - $former_var_end_pos > 1){
+					# 正常情况应该是相差1
+					# 跳空的位置补上ref base
+					my @gap_pos;
+					my $sp = $former_var_end_pos + 1;
+					my $ep = $pos - 1;
+					for my $pos ($sp..$ep){
+						push @gap_pos, $pos;
+					}
+
+					my $target = "$ref_name\:$gap_pos[0]\-$gap_pos[-1]";
+					print "gap: $target\n";
+					my $ref_base = &get_ref_base($target,$ref_fa);
+					push @cons_fa, $ref_base;
+				}else{
+					# 如果前一个变异最右端位置cover到了部分或者全部当前的变异,该如何处理
+					# 暂时没有发现这种情况
+				}
+				&process_ref_line($_,\@cons_fa); # 处理完gap碱基后,处理当前VCF行
+			}
+		}
+	}else{
+		# alt allele
+		my @pass_allele;
+
+		if ($processed_var_num == 0){
+			# 第一行
+			&process_var_line($_,\@pass_allele,\@processed_var,\@cons_fa);
+		}else{
+			# 检查前一个变异位点
+			my $former_var_end_pos = &get_former_end_pos(\@processed_var);
+			my $exp_pos = $former_var_end_pos + 1;
+			if ($pos == $exp_pos){
+				# 位置正确
+				&process_var_line($_,\@pass_allele,\@processed_var,\@cons_fa);
+			}else{
+				if ($pos - $former_var_end_pos > 1){
+					# 正常情况应该是相差1
+					# 跳空的位置补上ref base
+					my @gap_pos;
+					my $sp = $former_var_end_pos + 1;
+					my $ep = $pos - 1;
+					for my $pos ($sp..$ep){
+						push @gap_pos, $pos;
+					}
+
+					my $target = "$ref_name\:$gap_pos[0]\-$gap_pos[-1]";
+					my $ref_base = &get_ref_base($target,$ref_fa);
+					push @cons_fa, $ref_base;
+				}else{
+					# 如果前一个变异最右端位置cover到了部分或者全部当前的变异,该如何处理
+					# 暂时没有发现这种情况
+				}
+				&process_var_line($_,\@pass_allele,\@processed_var,\@cons_fa);
+			}
+		}
+	}
+}
+			
+close GVCF;
+print "@cons_fa\n";
+my $cons_fa = join("", @cons_fa);
+print "Consensus Fasta is: $cons_fa\n";
+
+
+
+
+
+
 
 sub get_ref_base{
 	my ($target,$ref) = @_;
@@ -167,9 +266,10 @@ sub get_former_end_pos{
 	my ($processed_var_aref) = @_;
 	my @var_list = @{$processed_var_aref};
 	my $last_var = pop @var_list;
-	my @var = split /\t/, $last_var; # pos/ref/alt
-	my $start_pos = $var[0];
-	my $ref_allele = $var[1];
+	#print "last_var: $last_var\n";
+	my @var = split /\:/, $last_var; # chr/pos/ref/alt/...
+	my $start_pos = $var[1];
+	my $ref_allele = $var[2];
 	my $ref_allele_len = length($ref_allele);
 	my $end_pos = $start_pos + $ref_allele_len - 1;
 
@@ -177,9 +277,10 @@ sub get_former_end_pos{
 }
 
 sub process_ref_line{
-	my ($vcf_line) = @_;
+	my ($vcf_line,$cons_fa_aref,$processed_var_aref) = @_;
 	my @arr = split /\t/, $vcf_line;
 	my $pos = $arr[1];
+	my $ref_allele = $arr[3];
 	my @info = split /\;/, $arr[-3]; # DP=5045;END=2041;MIN_DP=5017
 	my $depth = (split /\=/, $info[0])[1]; # 不适合用MIN_DP进行过滤
 	my $end_pos = (split /\=/, $info[1])[1]; # 2041
@@ -188,190 +289,55 @@ sub process_ref_line{
 	if ($depth >= $depth_cutoff){
 		my $ref_base = &get_ref_base($target,$ref_fa);
 		chomp $ref_base;
-		push @cons_fa, $ref_base;
+		push @{$cons_fa_aref}, $ref_base;
 	}else{
 		my $N_base = 'N' x ($end_pos - $pos + 1);
-		push @cons_fa, $N_base;
+		push @{$cons_fa_aref}, $N_base;
 	}
+
+	push @{$processed_var_aref}, "$ref_name\:$pos\:$ref_allele";
 }
 
 sub process_var_line{
-	my ($vcf_line) = @_;
-
-
-}
-
-sub process_pass_allele{
-	my ($pass_allele_aref) = @_;
-
-}
-
-sub extend_base_for_left_cons{
-	#
-}
-
-sub extend_base_for_right_cons{
-	# 
-}
-
-# 4310位置后面应该紧跟4311,但VCF文件中下一个位置是从4312开始
-# 这种特殊情况需要考虑,否则会出现遗漏 
-
-#K03455.1        4305    .       T       <*>     0       .       DP=3911;END=4309;MIN_DP=3902    GQ:DP:MIN_DP:QR
-#:RO:QA:AO        496066:3911:3902:498070:3897:2004:14
-#K03455.1        4310    .       C       T       73012.9 .       AB=0;ABP=0;AC=2;AF=1;AN=2;AO=3739;CIGAR=1X;DP=3888;DPB=3888;DPRA=0;EPP=7.61052;EPPR=8.34296;GTI=0;LEN=1;MEANALT=3;MQM=46.3188;MQMR=19.3605;NS=1;NUMALT=1;ODDS=4361.16;PAIRED=0;PAIREDR=0;PAO=0;PQA=0;PQR=0;PRO=0;QA=95865;QR=4488;RO=147;RPL=3605;RPP=6999.95;RPPR=17.2061;RPR=134;RUN=1;SAF=1717;SAP=57.0358;SAR=2022;SRF=141;SRP=272.229;SRR=6;TYPE=snp;technology.IONTORRENT=1       GT:DP:AD:RO:QR:AO:QA:GL 1/1:3888:147,3739:147:4488:3739:95865:-8148.61,-954.567,0
-#K03455.1        4312    .       T       <*>     0       .       DP=13509;END=4317;MIN_DP=3900   GQ:DP:MIN_DP:QR:RO:QA:AO        1.86135e+06:13509:3900:1872180:13437:10829:71
-
-my @processed_var;
-
-open GVCF, "$gvcf" or die;
-while (<GVCF>){
-	chomp;
-	next if (/^\#/);
-	next if (/^$/);
-	my @arr = split /\t/;
-	my $ref = $arr[0];
+	my ($vcf_line,$pass_allele_aref,$processed_var_aref,$cons_fa_aref) = @_;
+	my @arr = split /\t/, $vcf_line;
+	my @gt_info = split /\:/, $arr[-1]; # GT:DP:AD:RO:QR:AO:QA:GL => 0/0:5005:4752,171:4752:104017:171:1740:0,-1326.07,-8172.33
+	my $gt = $gt_info[0];
 	my $pos = $arr[1];
+	my $depth = $gt_info[1];
 	my $ref_allele = $arr[3];
 	my $alt_allele = $arr[4];
-	my $QUAL = $arr[5];
-
+	my @allele_depth = split /\,/, $gt_info[2]; # 4752,171 (one alt allele, first '4752' is the ref allele depth) or 27,187,4821 (two alt alleles)
 	my $ref_allele_len = length($ref_allele);
-	
-	my $var = "$pos\t$ref_allele\t$alt_allele";
-	my $processed_var_num = scalar(@processed_var);
 
-	if ($alt_allele =~ /\*/){
-		# ref allele
-		if ($processed_var_num == 0){
-			# 第一行
-			&process_ref_line($_);
-		}else{
-			# 检查前一个变异位点
-			my $former_var_end_pos = &get_former_end_pos(\@processed_var);
-			my $exp_pos = $former_var_end_pos + 1;
-			if ($pos == $exp_pos){
-				# 位置正确
-				&process_ref_line($_);
-			}else{
-				if ($pos - $former_var_end_pos > 1){
-					# 正常情况应该是相差1
-					# 跳空的位置补上ref base
-					my @gap_pos;
-					my $sp = $former_var_end_pos + 1;
-					my $ep = $pos - 1;
-					for my $pos ($sp..$ep){
-						push @gap_pos, $pos;
-					}
-
-					my $target = "$ref_name\:$gap_pos[0]\-$gap_pos[-1]";
-					my $ref_base = &get_ref_base($target,$ref_fa);
-					push @cons_fa, $ref_base;
-				}else{
-					# 如果前一个变异最右端位置cover到了部分或者全部当前的变异,该如何处理
-					# 暂时没有发现这种情况
-				}
-				&process_ref_line($_); # 处理完gap碱基后,处理当前VCF行
+	if ($depth < $depth_cutoff){
+		my $N_base = 'N' x ($ref_allele_len);
+		push @{$cons_fa_aref}, $N_base;
+		my $var = "$ref_name\:$pos\:$ref_allele\:$alt_allele\:Depth\:$depth";
+		push @{$processed_var_aref}, $var;
+		print "[Skip this Variant: Low Deoth] $var\n";
+	}else{	
+		#my @pass_allele; # pass freq cutoff alt allele
+		my @alt_allele;
+		if ($alt_allele =~ /\,/){
+			my @val = split /\,/, $alt_allele;
+			for my $v (@val){
+				push @alt_allele, $v;
 			}
-		}
-	}else{
-		# alt allele
-		if ($processed_var_num == 0){
-			# 第一行
-			&process_var_line($_);
 		}else{
-			# 检查前一个变异位点
-			my $former_var_end_pos = &get_former_end_pos(\@processed_var);
-			my $exp_pos = $former_var_end_pos + 1;
-			if ($pos == $exp_pos){
-				# 位置正确
-				&process_var_line($_);
-			}else{
-				if ($pos - $former_var_end_pos > 1){
-					# 正常情况应该是相差1
-					# 跳空的位置补上ref base
-
-
-
-					push @cons_fa, $ref_base;
-				}else{
-					# 如果前一个变异最右端位置cover到了部分或者全部当前的变异,该如何处理
-					# 暂时没有发现这种情况
-				}
-				&process_var_line($_);
-			}
-		}
-		my @gt_info = split /\:/, $arr[-1]; # GT:DP:AD:RO:QR:AO:QA:GL => 0/0:5005:4752,171:4752:104017:171:1740:0,-1326.07,-8172.33
-		my $gt = $gt_info[0];
-		my $depth = $gt_info[1];
-
-		if ($depth < $depth_cutoff){
-			my $N_base = 'N' x ($ref_allele_len);
-			push @cons_fa, $N_base;
-			push @processed_var, $var;
-			next;
+			push @alt_allele, $alt_allele;
 		}
 
-
-		my @allele_depth = split /\,/, $gt_info[2]; # 4752,171 (one alt allele, first '4752' is the ref allele depth) or 27,187,4821 (two alt alleles)
-		
-		my @pass_allele;
-
-		# 第一步:生成pass_allele
-		# 第二部:根据pass_allele,生成cons fa
-		
 		my %alt_allele_depth; # 记录alt allele的深度信息
 
-		if ($alt_allele =~ /\,/){
-			# multi alt allele
-			my @alt_allele = split /\,/, $alt_allele;
-			my $idx = 0;
-			for my $allele (@alt_allele){
-				$idx += 1;
-				my $alt_allele_depth = $allele_depth[$idx];
-				$alt_allele_depth{$allele} = $alt_allele_depth; # 记录alt allele的深度信息
+		my $idx = 0;
+		for my $allele (@alt_allele){
+			$idx += 1;
+			my $alt_allele_depth = $allele_depth[$idx];
+			$alt_allele_depth{$allele} = $alt_allele_depth; # 记录alt allele的深度信息
 				
-				my $alt_allele_len = length($allele);
+			my $alt_allele_len = length($allele);
 
-				my $alt_allele_freq;
-				if ($alt_allele_depth > 0 and $depth > 0){
-					$alt_allele_freq = sprintf "%.3f", $alt_allele_depth / $depth;
-				}else{
-					$alt_allele_freq = 0;
-				}
-
-				my $var = "$ref_name\:$pos\:$ref_allele\:$allele\:$alt_allele_freq";
-
-				if ($ref_allele_len == $alt_allele_len){
-					# SNP/MNP
-					# check freq
-					if ($alt_allele_freq >= $snp_freq_cutoff){
-						print "[PASS, Written in Consensus Fasta] $var\n";
-						push @pass_allele, $allele;
-					}else{
-						# 频率不满足
-						print "[Skip this Variant: Low Freq] $var\n";
-					}
-				}else{
-					# INDEL
-					# 检查频率
-					if ($alt_allele_freq >= $indel_freq_cutoff){
-						print "[Warning: INDEL!] [PASS, Written in Consensus Fasta] $var\n";
-						push @pass_allele, $allele;
-					}else{
-						# 频率不满足
-						print "[Warning: INDEL!] [Skip this Variant: Low Freq] $var\n";
-					}
-				}
-			}
-		}else{
-			# single alt allele
-			my $alt_allele_depth = $allele_depth[1];
-			my $alt_allele_len = length($alt_allele);
-			
-			$alt_allele_depth{$alt_allele} = $alt_allele_depth;
-
-			# 突变频率
 			my $alt_allele_freq;
 			if ($alt_allele_depth > 0 and $depth > 0){
 				$alt_allele_freq = sprintf "%.3f", $alt_allele_depth / $depth;
@@ -381,14 +347,14 @@ while (<GVCF>){
 
 			my $var = "$ref_name\:$pos\:$ref_allele\:$alt_allele\:$alt_allele_freq";
 
-			# 检查是SNP/MNP还是INDEL
 			if ($ref_allele_len == $alt_allele_len){
 				# SNP/MNP
-				# 检查频率
+				# check freq
 				if ($alt_allele_freq >= $snp_freq_cutoff){
-					push @pass_allele, $alt_allele;
 					print "[PASS, Written in Consensus Fasta] $var\n";
+					push @{$pass_allele_aref}, $allele;
 				}else{
+					# 频率不满足
 					print "[Skip this Variant: Low Freq] $var\n";
 				}
 			}else{
@@ -396,36 +362,41 @@ while (<GVCF>){
 				# 检查频率
 				if ($alt_allele_freq >= $indel_freq_cutoff){
 					print "[Warning: INDEL!] [PASS, Written in Consensus Fasta] $var\n";
-					push @pass_allele, $alt_allele;
+					#push @{$pass_allele_aref}, $allele;
 				}else{
+					# 频率不满足
 					print "[Warning: INDEL!] [Skip this Variant: Low Freq] $var\n";
 				}
 			}
 		}
 
-		# 处理pass allele
-		my $alt_num = scalar(@pass_allele);
-		
+		push @{$processed_var_aref}, "$ref_name\:$pos\:$ref_allele\:$alt_allele";
+
+
+		# 处理pass_allele,判断哪些passed allele可以写入cons fa
+		my $alt_num = scalar(@{$pass_allele_aref});
+
 		if ($alt_num == 0){
 			# no alt allele
 			my $end_pos = $pos + length($ref_allele) - 1;
 			my $target = "$ref_name\:$pos\-$end_pos";
 			my $ref_base = &get_ref_base($target,$ref_fa);
-			push @cons_fa, $ref_base;
+			push @{$cons_fa_aref}, $ref_base;
 		}elsif ($alt_num == 1){
 			# 有一个满足条件的alt allele
-			push @cons_fa, $pass_allele[0];
+			push @{$cons_fa_aref}, $pass_allele_aref->[0];
 		}elsif ($alt_num == 2){
 			# 有2个满足条件的alt allele
 			# 两个allele是否都是MNP
-			my $allele_1_len = length($pass_allele[0]);
-			my $allele_2_len = length($pass_allele[1]);
+			my $allele_1_len = length($pass_allele_aref->[0]);
+			my $allele_2_len = length($pass_allele_aref->[1]);
+			
 			if ($allele_1_len == $allele_2_len){
 				# MNP
 				my $idx = 0;
 				for my $pos (1..$allele_1_len){
 					my @base;
-					for my $allele (@pass_allele){
+					for my $allele (@{$pass_allele_aref}){
 						my @allele_base = split //, $allele;
 						my $base = $allele_base[$idx];
 						push @base,$base;
@@ -434,22 +405,22 @@ while (<GVCF>){
 
 					my $key = join("", @base);
 					my $BASE = $iupac_code_dict{$key};
-					push @cons_fa, $BASE;
+					push @{$cons_fa_aref}, $BASE;
 				}
 			}else{
 				# 两个alt allele. 一个SNP 一个INDEL
 				# 判断哪个allele的reads多,选择哪个allele生成一致性序列
 				# 这种情况应该很少见
-				my $first_allele = $pass_allele[0];
-				my $second_allele = $pass_allele[1];
+				my $first_allele = $pass_allele_aref->[0];
+				my $second_allele = $pass_allele_aref->[1];
 
 				my $first_allele_depth = $alt_allele_depth{$first_allele};
 				my $second_allele_depth = $alt_allele_depth{$second_allele};
 
 				if ($first_allele_depth >= $second_allele_depth){
-					push @cons_fa, $first_allele;
+					push @{$cons_fa_aref}, $first_allele;
 				}else{
-					push @cons_fa, $second_allele;
+					push @{$cons_fa_aref}, $second_allele;
 				}
 			}
 		}else{
@@ -457,7 +428,7 @@ while (<GVCF>){
 			# 如果>=3个alt allele都是SNP,选择top2生成一致性序列
 			# 检查多个allele长度是否都相同
 			my $check_alt_allele_len = 0;
-			for my $allele (@pass_allele){
+			for my $allele (@{$pass_allele_aref}){
 				my $len = length($allele);
 				if ($len =! $ref_allele_len){
 					$check_alt_allele_len = 1;
@@ -492,7 +463,7 @@ while (<GVCF>){
 
 					my $key = join("",@base);
 					my $BASE = $iupac_code_dict{$key};
-					push @cons_fa, $BASE;
+					push @{$cons_fa_aref}, $BASE;
 				}
 			}else{
 				# >=3个alt allele中存在一个INDEL,则直接取cov最高的作为alt allele
@@ -503,14 +474,25 @@ while (<GVCF>){
 
 				my $top1_cov_allele = $allele_sort_by_cov[0];
 
-				push @cons_fa, $top1_cov_allele;
+				push @{$cons_fa_aref}, $top1_cov_allele;
 			}
 		}
 	}
-	push @processed_var, $var;
 }
-			
-close GVCF;
-print "@cons_fa\n";
-my $cons_fa = join("", @cons_fa);
-print "Consensus Fasta is: $cons_fa\n";
+
+
+sub extend_base_for_left_cons{
+	#
+}
+
+sub extend_base_for_right_cons{
+	# 
+}
+
+# 4310位置后面应该紧跟4311,但VCF文件中下一个位置是从4312开始
+# 这种特殊情况需要考虑,否则会出现遗漏 
+
+#K03455.1        4305    .       T       <*>     0       .       DP=3911;END=4309;MIN_DP=3902    GQ:DP:MIN_DP:QR
+#:RO:QA:AO        496066:3911:3902:498070:3897:2004:14
+#K03455.1        4310    .       C       T       73012.9 .       AB=0;ABP=0;AC=2;AF=1;AN=2;AO=3739;CIGAR=1X;DP=3888;DPB=3888;DPRA=0;EPP=7.61052;EPPR=8.34296;GTI=0;LEN=1;MEANALT=3;MQM=46.3188;MQMR=19.3605;NS=1;NUMALT=1;ODDS=4361.16;PAIRED=0;PAIREDR=0;PAO=0;PQA=0;PQR=0;PRO=0;QA=95865;QR=4488;RO=147;RPL=3605;RPP=6999.95;RPPR=17.2061;RPR=134;RUN=1;SAF=1717;SAP=57.0358;SAR=2022;SRF=141;SRP=272.229;SRR=6;TYPE=snp;technology.IONTORRENT=1       GT:DP:AD:RO:QR:AO:QA:GL 1/1:3888:147,3739:147:4488:3739:95865:-8148.61,-954.567,0
+#K03455.1        4312    .       T       <*>     0       .       DP=13509;END=4317;MIN_DP=3900   GQ:DP:MIN_DP:QR:RO:QA:AO        1.86135e+06:13509:3900:1872180:13437:10829:71
