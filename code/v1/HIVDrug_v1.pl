@@ -69,17 +69,24 @@ print O "$python2 /data/fulongfei/tools/variantCaller/scripts/generate_variant_t
 
 
 print O "\# freebayes\n";
-my @ploidy = qw/2 3 4/;
+my @ploidy = qw/2 3/;
 for my $p (@ploidy){
 	my $pp = "ploidy".$p;
 	#print O "$freebayes --bam $bam --fasta-reference $ref -t $merged_bed --vcf $outdir/$name/freebayes/$name\.freebayes.$pp\.vcf -F 0.02 -C 1 --ploidy $p --pooled-continuous --gvcf $outdir/$name/freebayes/$name\.freebayes.$pp\.gvcf\n\n";
-	print O "$freebayes --bam $bam --fasta-reference $ref -t $merged_bed -F 0.02 -C 1 --ploidy $p --pooled-continuous --gvcf \>$outdir/$name/freebayes/$name\.freebayes.$pp\.gvcf\n\n";
+	print O "$freebayes --bam $bam --fasta-reference $ref -t $merged_bed -F 0.02 -C 1 --ploidy $p --pooled-continuous --gvcf \>$outdir/$name/freebayes/$name\.freebayes\.$pp\.gvcf\n\n";
 }
 
 print O "\# freebayesConsensus\n";
+my @freq = qw/0.02 0.05 0.1 0.15 0.2/;
 my $freebayes_gvcf = "$outdir/$name/freebayes/$name\.freebayes.ploidy2.gvcf";
-print O "perl /data/fulongfei/git_repo/HIVDrug/freebayes_consensus_fa.pl -gvcf $freebayes_gvcf -ref $ref -bed $merged_bed -d 20 -snp_f 0.2 -indel_f 0.6 -outdir $outdir/$name/freebayesConsensus\n\n";
-
+for my $f (@freq){
+	my $freq_int = $f * 100;
+	my $freq_new = "Freq".$freq_int;
+	if (!-d "$outdir/$name/freebayesConsensus/$freq_new"){
+		`mkdir -p $outdir/$name/freebayesConsensus/$freq_new`;
+	}
+	print O "perl /data/fulongfei/git_repo/HIVDrug/freebayes_consensus_fa.pl -gvcf $freebayes_gvcf -n $name -ref $ref -bed $merged_bed -d 20 -snp_f $f -indel_f 0.6 -outdir $outdir/$name/freebayesConsensus/$freq_new\n\n";
+}
 
 print O "\# pileup2vaf\n";
 print O "$python3 /data/fulongfei/git_repo/pileup2vaf/pileup2vaf.py -bam $bam -fa $ref -bed /data/fulongfei/analysis/hiv/re_analysis_new_ref/POL.bed -od $outdir/$name/pileup2vaf -n $name\n\n";
@@ -87,8 +94,8 @@ print O "$python3 /data/fulongfei/git_repo/pileup2vaf/pileup2vaf.py -bam $bam -f
 my $gvcf = "$outdir/$name/variantCaller/TSVC_variants.genome.vcf";
 
 print O "\# generateConsensus\n";
-#my @freq = qw/0.02 0.05 0.1 0.15 0.2/;
-my @freq = qw/0.2/;
+undef @freq;
+@freq = qw/0.2/;
 for my $freq (@freq){
 	my $freq_tmp = $freq * 100;
 	

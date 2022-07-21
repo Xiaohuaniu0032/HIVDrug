@@ -46,30 +46,42 @@ if (not defined $samtools_bin){
 	$samtools_bin = "/usr/bin/samtools";
 }
 
-my $cons_fa = "$outdir/$name\."
-print "############ Analysis Param ############\n";
-print "gvcf file is: $gvcf\n";
-print "bed file is: $target_bed\n";
-print "depth_cutoff is: $depth_cutoff [default: 20]\n";
-print "snp_freq_cutoff is: $snp_freq_cutoff [default: 0.05]\n";
-print "indel_freq_cutoff is: $indel_freq_cutoff [default: 0.6]\n";
-print "output dir is: $outdir\n"; 
+# check freq limit
+if ($snp_freq_cutoff <= 0 || $snp_freq_cutoff >= 1 ){
+	die "-snp_f limit is (0,1). default is: 0.05 (5\%)\n";
+}
 
+if ($indel_freq_cutoff <= 0 || $indel_freq_cutoff >= 1){
+	die "-indel_f limit is (0,1). default is: 0.6 (60\%)\n";
+}
+
+my $freq_int = $snp_freq_cutoff * 100; # 0.05 => 5
+my $freq_new = "Freq".$freq_int; # Freq5
+my $consensus_fasta = "$outdir/$name\.freebayesConsensus\.$freq_new\.fasta";
+my $log = "$outdir/$name\.$freq_new\.log";
+my $var_summary = "$outdir/$name\.freebayes.variants\.$freq_new\.summary";
+
+
+open LOG, ">$log" or die;
+open SUMMARY, ">$var_summary" or die;
+
+open CONS, ">$consensus_fasta" or die;
+my $header = "$name\.freebayesConsensus\.$freq_new"; # IonCode_0101.freebayesConsensus.Freq20
+print CONS "\>$header\n";
+
+print LOG "############ Analysis Param ############\n";
+print LOG "gvcf file is: $gvcf\n";
+print LOG "bed file is: $target_bed\n";
+print LOG "depth_cutoff is: $depth_cutoff [default: 20]\n";
+print LOG "snp_freq_cutoff is: $snp_freq_cutoff [default: 0.05]\n";
+print LOG "indel_freq_cutoff is: $indel_freq_cutoff [default: 0.6]\n";
+print LOG "output dir is: $outdir\n"; 
+print LOG "consensus.fasta file is: $consensus_fasta\n";
+print LOG "log file is: $log\n";
+print LOG "Variants summary file is: $var_summary\n";
 
 my $ref_name = "K03455.1";
 
-# /data/fulongfei/analysis/hiv/JSCDC/IonCode_0101/freebayes/IonCode_0101.freebayes.ploidy2.gvcf
-# /data/fulongfei/git_repo/HIVDrug/BED/new_BED/POL.bed
-# Protease	1	2253-2255	CCT	P	Proline
-# ///
-# Protease	99	2547-2549	TTT	F	Phenylalanine
-# RT	1	2550-2552	CCC	P	Proline
-# ///
-# RT	560	4227-4229	CTA	L	Leucine
-# Integrase	1	4230-4232	TTT	F	Phenylalanine
-# ///
-# Integrase	288	5091-5093	GAT	D	Aspartic acid
-# Integrase	289	5094-5096	TAG	Stop	Stop codons
 
 my %iupac_code_dict; # https://www.bioinformatics.org/sms/iupac.html
 $iupac_code_dict{"AA"} = "A";
@@ -99,6 +111,12 @@ $iupac_code_dict{"CA"} = "M";
 my @cons_fa;
 my @processed_var;
 
+my @low_depth_var;
+my @snp_keep;
+my @snp_skip;
+my @indel_keep;
+my @indel_skip;
+
 open GVCF, "$gvcf" or die;
 while (<GVCF>){
 	chomp;
@@ -114,8 +132,8 @@ while (<GVCF>){
 	my $ref_allele_len = length($ref_allele);
 	my $processed_var_num = scalar(@processed_var);
 
-	print "$_\n";
-	print "input_cons_fa: @cons_fa\n";
+	#print "$_\n";
+	#print "input_cons_fa: @cons_fa\n";
 	if ($alt_allele =~ /\*/){
 		# ref allele
 		if ($processed_var_num == 0){
@@ -140,7 +158,7 @@ while (<GVCF>){
 					}
 
 					my $target = "$ref_name\:$gap_pos[0]\-$gap_pos[-1]";
-					print "gap: $target\n";
+					print LOG "gap: $target\n";
 					my $ref_base = &get_ref_base($target,$ref_fa);
 					push @cons_fa, $ref_base;
 				}else{
@@ -189,10 +207,43 @@ while (<GVCF>){
 }
 			
 close GVCF;
-print "@cons_fa\n";
+print LOG "@cons_fa\n";
 my $cons_fa = join("", @cons_fa);
-print "Consensus Fasta is: $cons_fa\n";
+print CONS "$cons_fa\n";
+close CONS;
+close LOG;
 
+
+
+print SUMMARY "Low Depth Variants:\n";
+for my $var (@low_depth_var){
+	print SUMMARY "\t$var\n";
+}
+print SUMMARY "\n\n";
+
+print SUMMARY "SNP Keep Variants:\n";
+for my $var (@snp_keep){
+	print SUMMARY "\t$var\n";
+}
+print SUMMARY "\n\n";
+
+print SUMMARY "INDEL Keep Variants:\n";
+for my $var (@indel_keep){
+	print SUMMARY "\t$var\n";
+}
+print SUMMARY "\n\n";
+
+print SUMMARY "SNP Skip Variants:\n";
+for my $var (@snp_skip){
+	print SUMMARY "\t$var\n";
+}
+print SUMMARY "\n\n";
+
+print SUMMARY "INDEL Skip Variants:\n";
+for my $var (@indel_skip){
+	print SUMMARY "\t$var\n";
+}
+print SUMMARY "\n\n";
 
 
 
@@ -326,7 +377,8 @@ sub process_var_line{
 		push @{$cons_fa_aref}, $N_base;
 		my $var = "$ref_name\:$pos\:$ref_allele\:$alt_allele\:Depth\:$depth";
 		push @{$processed_var_aref}, $var;
-		print "[Skip this Variant: Low Depth] $var\n";
+		print LOG "[Skip this Variant: Low Depth] $var\n";
+		push @low_depth_var, $var;
 	}else{	
 		#my @pass_allele; # pass freq cutoff alt allele
 		my @alt_allele;
@@ -356,27 +408,35 @@ sub process_var_line{
 				$alt_allele_freq = 0;
 			}
 
-			my $var = "$ref_name\:$pos\:$ref_allele\:$alt_allele\:$alt_allele_freq";
+			my $var = "$ref_name\:$pos\:$ref_allele\:$allele\:$alt_allele_freq";
 
 			if ($ref_allele_len == $alt_allele_len){
 				# SNP/MNP
 				# check freq
 				if ($alt_allele_freq >= $snp_freq_cutoff){
-					print "[PASS, Written in Consensus Fasta] $var\n";
+					print LOG "[PASS, Written in Consensus Fasta] $var\n";
 					push @{$pass_allele_aref}, $allele;
+					my $VAR = "$ref_name\:$pos\:$ref_allele\:$allele\:Freq\=$alt_allele_freq";
+					push @snp_keep, $VAR;
 				}else{
 					# 频率不满足
-					print "[Skip this Variant: Low Freq] $var\n";
+					print LOG "[Skip this Variant: Low Freq] $var\n";
+					my $VAR = "$ref_name\:$pos\:$ref_allele\:$allele\:Freq\=$alt_allele_freq";
+					push @snp_skip, $VAR;
 				}
 			}else{
 				# INDEL
 				# 检查频率
 				if ($alt_allele_freq >= $indel_freq_cutoff){
-					print "[Warning: INDEL!] [PASS, Written in Consensus Fasta] $var\n";
+					print LOG "[Warning: INDEL!] [PASS, Written in Consensus Fasta] $var\n";
 					#push @{$pass_allele_aref}, $allele;
+					my $VAR = "$ref_name\:$pos\:$ref_allele\:$allele\:Freq\=$alt_allele_freq";
+					push @indel_keep, $VAR;
 				}else{
 					# 频率不满足
-					print "[Warning: INDEL!] [Skip this Variant: Low Freq] $var\n";
+					print LOG "[Warning: INDEL!] [Skip this Variant: Low Freq] $var\n";
+					my $VAR = "$ref_name\:$pos\:$ref_allele\:$allele\:Freq\=$alt_allele_freq";
+					push @indel_skip, $VAR;
 				}
 			}
 		}
@@ -439,6 +499,14 @@ sub process_var_line{
 			# 有>=3个满足条件的alt allele
 			# 如果>=3个alt allele都是SNP,选择top2生成一致性序列
 			# 检查多个allele长度是否都相同
+			my @PASS_ALLELE = @{$pass_allele_aref};
+			#print "pass_allele_is: @PASS_ALLELE\n";
+			
+			my %PASS_ALLELE;
+			for my $allele (@PASS_ALLELE){
+				$PASS_ALLELE{$allele} = 1;
+			}
+			
 			my $check_alt_allele_len = 0;
 			for my $allele (@{$pass_allele_aref}){
 				my $len = length($allele);
@@ -447,14 +515,18 @@ sub process_var_line{
 					last;
 				}
 			}
+			#print "check_alt_allele_len: $check_alt_allele_len\n";
 
 			if ($check_alt_allele_len == 0){
 				# 所有alt allele长度与ref allele长度相同
 				# 取top2 depth alt allele
 				my @allele_sort_by_cov;
 				foreach my $allele (sort {$alt_allele_depth{$b} <=> $alt_allele_depth{$a}} keys %alt_allele_depth){
-					push @allele_sort_by_cov, $allele;
+					if (exists $PASS_ALLELE{$allele}){
+						push @allele_sort_by_cov, $allele;
+					}
 				}
+				#print "sorted_allele_is: @allele_sort_by_cov\n";
 
 				my @top2_cov_allele;
 				my $top1_allele = shift @allele_sort_by_cov;
@@ -464,6 +536,7 @@ sub process_var_line{
 
 				my $top1_allele_len = length($top1_allele);
 				my $idx = 0;
+				#print "top2_allele_is: @top2_cov_allele\n";
 				for my $pos (1..$top1_allele_len){
 					my @base;
 					for my $allele (@top2_cov_allele){
@@ -472,6 +545,7 @@ sub process_var_line{
 						push @base,$base;
 					}
 					$idx += 1;
+					#print "two_two_base_is: @base\n";
 
 					my $key = join("",@base);
 					my $BASE = $iupac_code_dict{$key};
@@ -480,9 +554,12 @@ sub process_var_line{
 			}else{
 				# >=3个alt allele中存在一个INDEL,则直接取cov最高的作为alt allele
 				my @allele_sort_by_cov;
+
 				foreach my $allele (sort {$alt_allele_depth{$b} <=> $alt_allele_depth{$a}} keys %alt_allele_depth){
-					push @allele_sort_by_cov, $allele;
-				}
+					if (exists $PASS_ALLELE{$allele}){
+						push @allele_sort_by_cov, $allele;
+					}
+				}	
 
 				my $top1_cov_allele = $allele_sort_by_cov[0];
 
