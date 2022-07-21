@@ -207,7 +207,10 @@ while (<GVCF>){
 }
 			
 close GVCF;
-print LOG "@cons_fa\n";
+for my $base (@cons_fa){
+	print LOG "$base\n";
+}
+#print LOG "@cons_fa\n";
 my $cons_fa = join("", @cons_fa);
 print CONS "$cons_fa\n";
 close CONS;
