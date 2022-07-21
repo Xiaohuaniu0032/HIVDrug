@@ -10,10 +10,11 @@ use List::Util qw(sum);
 # longfei.fu@thermofisher.com
 # 601435543@qq.com
 
-my ($gvcf,$ref_fa,$target_bed,$samtools_bin,$depth_cutoff,$snp_freq_cutoff,$indel_freq_cutoff,$outdir);
+my ($gvcf,$name,$ref_fa,$target_bed,$samtools_bin,$depth_cutoff,$snp_freq_cutoff,$indel_freq_cutoff,$outdir);
 
 GetOptions(
 	"gvcf:s"        => \$gvcf,               # NEED
+	"n:s"           => \$name,               # NEED
 	"ref:s"         => \$ref_fa,             # NEED
 	"bed:s"         => \$target_bed,         # NEED
 	"samtools:s"    => \$samtools_bin,       # Default: /usr/bin/samtools
@@ -23,6 +24,11 @@ GetOptions(
 	"outdir:s"      => \$outdir,             # NEED
     ) or die "unknown args\n";
 
+
+# check needed args
+if (not defined $gvcf || not defined $name || not defined $ref_fa || not defined $target_bed || not defined $outdir){
+	die "please check your args. [-gvcf, -n, -ref, -bed, -outdir are needed!]\n";
+}
 
 if (not defined $depth_cutoff){
 	$depth_cutoff = 20;
@@ -40,6 +46,7 @@ if (not defined $samtools_bin){
 	$samtools_bin = "/usr/bin/samtools";
 }
 
+my $cons_fa = "$outdir/$name\."
 print "############ Analysis Param ############\n";
 print "gvcf file is: $gvcf\n";
 print "bed file is: $target_bed\n";
@@ -107,18 +114,20 @@ while (<GVCF>){
 	my $ref_allele_len = length($ref_allele);
 	my $processed_var_num = scalar(@processed_var);
 
+	print "$_\n";
+	print "input_cons_fa: @cons_fa\n";
 	if ($alt_allele =~ /\*/){
 		# ref allele
 		if ($processed_var_num == 0){
 			# 第一行
-			&process_ref_line($_,\@cons_fa);
+			&process_ref_line($_,\@cons_fa,\@processed_var);
 		}else{
 			# 检查前一个变异位点
 			my $former_var_end_pos = &get_former_end_pos(\@processed_var);
 			my $exp_pos = $former_var_end_pos + 1;
 			if ($pos == $exp_pos){
 				# 位置正确
-				&process_ref_line($_,\@cons_fa);
+				&process_ref_line($_,\@cons_fa,\@processed_var);
 			}else{
 				if ($pos - $former_var_end_pos > 1){
 					# 正常情况应该是相差1
@@ -138,7 +147,7 @@ while (<GVCF>){
 					# 如果前一个变异最右端位置cover到了部分或者全部当前的变异,该如何处理
 					# 暂时没有发现这种情况
 				}
-				&process_ref_line($_,\@cons_fa); # 处理完gap碱基后,处理当前VCF行
+				&process_ref_line($_,\@cons_fa,\@processed_var); # 处理完gap碱基后,处理当前VCF行
 			}
 		}
 	}else{
@@ -278,14 +287,16 @@ sub get_former_end_pos{
 
 sub process_ref_line{
 	my ($vcf_line,$cons_fa_aref,$processed_var_aref) = @_;
+	my @v = @{$cons_fa_aref};
 	my @arr = split /\t/, $vcf_line;
-	my $pos = $arr[1];
-	my $ref_allele = $arr[3];
+	my $pos = $arr[1]; # 2024
+	#my $ref_allele = $arr[3];
 	my @info = split /\;/, $arr[-3]; # DP=5045;END=2041;MIN_DP=5017
 	my $depth = (split /\=/, $info[0])[1]; # 不适合用MIN_DP进行过滤
 	my $end_pos = (split /\=/, $info[1])[1]; # 2041
 	my $target = "$ref_name\:$pos\-$end_pos";
-	
+	my $ref_allele = &get_ref_base($target,$ref_fa);
+
 	if ($depth >= $depth_cutoff){
 		my $ref_base = &get_ref_base($target,$ref_fa);
 		chomp $ref_base;
@@ -315,7 +326,7 @@ sub process_var_line{
 		push @{$cons_fa_aref}, $N_base;
 		my $var = "$ref_name\:$pos\:$ref_allele\:$alt_allele\:Depth\:$depth";
 		push @{$processed_var_aref}, $var;
-		print "[Skip this Variant: Low Deoth] $var\n";
+		print "[Skip this Variant: Low Depth] $var\n";
 	}else{	
 		#my @pass_allele; # pass freq cutoff alt allele
 		my @alt_allele;
@@ -385,6 +396,7 @@ sub process_var_line{
 		}elsif ($alt_num == 1){
 			# 有一个满足条件的alt allele
 			push @{$cons_fa_aref}, $pass_allele_aref->[0];
+			my $v = $pass_allele_aref->[0];
 		}elsif ($alt_num == 2){
 			# 有2个满足条件的alt allele
 			# 两个allele是否都是MNP
