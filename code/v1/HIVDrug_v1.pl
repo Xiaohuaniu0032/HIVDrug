@@ -57,23 +57,29 @@ if (!-d "$outdir/$name/freebayesConsensus"){
 	`mkdir -p $outdir/$name/freebayesConsensus`;
 }
 
+if (!-d "$outdir/$name/freebayesConsensus_v2"){
+	`mkdir -p $outdir/$name/freebayesConsensus_v2`;
+}
+
+
 my $runsh = "$outdir/$name/run\_$name.sh";
 
 open O, ">$runsh" or die;
 print O "\# variantCaller 5.12\n";
-print O "$python2 /data/fulongfei/tools/variantCaller/bin/variant_caller_pipeline.py --region-bed $merged_bed --primer-trim-bed $unmerged_bed --input-bam $bam --reference-fasta $ref --output-dir $outdir/$name/variantCaller --parameters-file $tvcJson -m $tvcSse --generate-gvcf on --hotspot-vcf $hotspot_vcf\n\n";
+print O "\# $python2 /data/fulongfei/tools/variantCaller/bin/variant_caller_pipeline.py --region-bed $merged_bed --primer-trim-bed $unmerged_bed --input-bam $bam --reference-fasta $ref --output-dir $outdir/$name/variantCaller --parameters-file $tvcJson -m $tvcSse --generate-gvcf on --hotspot-vcf $hotspot_vcf\n\n";
 my $TSVC_variants_vcf = "$outdir/$name/variantCaller/TSVC_variants.vcf";
 my $alleles_xls = "$outdir/$name/variantCaller/alleles.xls";
 my $variants_xls = "$outdir/$name/variantCaller/variants.xls";
-print O "$python2 /data/fulongfei/tools/variantCaller/scripts/generate_variant_tables.py --suppress-no-calls on --input-vcf $TSVC_variants_vcf --region-bed $unmerged_bed --alleles2-xls $alleles_xls --output-xls $variants_xls\n\n";
+print O "\# $python2 /data/fulongfei/tools/variantCaller/scripts/generate_variant_tables.py --suppress-no-calls on --input-vcf $TSVC_variants_vcf --region-bed $unmerged_bed --alleles2-xls $alleles_xls --output-xls $variants_xls\n\n";
 
 
 print O "\# freebayes\n";
 my @ploidy = qw/2 3/;
 for my $p (@ploidy){
+	next if ($p == 3);
 	my $pp = "ploidy".$p;
 	#print O "$freebayes --bam $bam --fasta-reference $ref -t $merged_bed --vcf $outdir/$name/freebayes/$name\.freebayes.$pp\.vcf -F 0.02 -C 1 --ploidy $p --pooled-continuous --gvcf $outdir/$name/freebayes/$name\.freebayes.$pp\.gvcf\n\n";
-	print O "$freebayes --bam $bam --fasta-reference $ref -t $merged_bed -F 0.02 -C 1 --ploidy $p --pooled-continuous --gvcf \>$outdir/$name/freebayes/$name\.freebayes\.$pp\.gvcf\n\n";
+	print O "\# $freebayes --bam $bam --fasta-reference $ref -t $merged_bed -F 0.02 -C 1 --limit-coverage 3000 --ploidy $p --pooled-continuous --gvcf \>$outdir/$name/freebayes/$name\.freebayes\.$pp\.gvcf\n\n";
 }
 
 print O "\# freebayesConsensus\n";
@@ -85,11 +91,22 @@ for my $f (@freq){
 	if (!-d "$outdir/$name/freebayesConsensus/$freq_new"){
 		`mkdir -p $outdir/$name/freebayesConsensus/$freq_new`;
 	}
-	print O "perl /data/fulongfei/git_repo/HIVDrug/freebayes_consensus_fa.pl -gvcf $freebayes_gvcf -n $name -ref $ref -bed $merged_bed -d 20 -snp_f $f -indel_f 0.6 -outdir $outdir/$name/freebayesConsensus/$freq_new\n\n";
+	print O "\# perl /data/fulongfei/git_repo/HIVDrug/freebayes_consensus_fa.pl -gvcf $freebayes_gvcf -n $name -ref $ref -bed $merged_bed -d 20 -snp_f $f -indel_f 0.6 -outdir $outdir/$name/freebayesConsensus/$freq_new\n\n";
 }
 
+print O "\# freebayesConsensus_v2\n";
+for my $f (@freq){
+	my $freq_int = $f * 100;
+	my $freq_new = "Freq".$freq_int;
+	if (!-d "$outdir/$name/freebayesConsensus_v2/$freq_new"){
+		`mkdir -p $outdir/$name/freebayesConsensus_v2/$freq_new`;
+	}
+	print O "perl /data/fulongfei/git_repo/HIVDrug/freebayes_consensus_fa_v2.pl -gvcf $freebayes_gvcf -n $name -ref $ref -bed $merged_bed -d 20 -snp_f $f -indel_f 0.6 -outdir $outdir/$name/freebayesConsensus_v2/$freq_new\n\n";
+}
+
+
 print O "\# pileup2vaf\n";
-print O "$python3 /data/fulongfei/git_repo/pileup2vaf/pileup2vaf.py -bam $bam -fa $ref -bed /data/fulongfei/analysis/hiv/re_analysis_new_ref/POL.bed -od $outdir/$name/pileup2vaf -n $name\n\n";
+print O "\# $python3 /data/fulongfei/git_repo/pileup2vaf/pileup2vaf.py -bam $bam -fa $ref -bed /data/fulongfei/analysis/hiv/re_analysis_new_ref/POL.bed -od $outdir/$name/pileup2vaf -n $name\n\n";
 
 my $gvcf = "$outdir/$name/variantCaller/TSVC_variants.genome.vcf";
 
@@ -106,13 +123,13 @@ for my $freq (@freq){
 
 	my $fa_h = $name."_generateCons_Freq".$freq_tmp;
 	my $cons_fa = "$dir_tmp/$name\.consensus\.Freq"."$freq_tmp\.fasta";
-#	print O "$python2 /data/fulongfei/git_repo/HIVDrug/generateConsensus/gvcf_to_fasta_v2.py --gvcf-file $gvcf --input-fasta-file $ref --region-bed-file $unmerged_bed --output-fasta-file $cons_fa --alias-contig $fa_h --min-dp 20 --process-contig K03455.1 --major-allele-only 0 --min-hpindel-var-freq $freq --min-non-hpindel-var-freq $freq\n\n";
+	print O "\# $python2 /data/fulongfei/git_repo/HIVDrug/generateConsensus/gvcf_to_fasta_v2.py --gvcf-file $gvcf --input-fasta-file $ref --region-bed-file $unmerged_bed --output-fasta-file $cons_fa --alias-contig $fa_h --min-dp 20 --process-contig K03455.1 --major-allele-only 0 --min-hpindel-var-freq $freq --min-non-hpindel-var-freq $freq\n\n";
 }
 
 
 print O "\# IRMA\n";
 my $fq = "$outdir/$name/IRMA/$name\.fastq";
-print O "samtools fastq $bam >$fq\n\n";
+print O "\# samtools fastq $bam >$fq\n\n";
 
 # Boxin region
 if (!-d "$outdir/$name/IRMA/Boxin_Region"){
@@ -123,7 +140,7 @@ for my $freq (@freq){
 	my $freq_str = "consensusFreq".$freq_tmp;
 	my $cons_dir = "$outdir/$name/IRMA/Boxin_Region/$freq_str";
 	my $IRMA_module_dir = "HIV1freq".$freq_tmp."_Boxin-pgm-hq"; # HIV1freq20_Boxin
-	print O "/data/fulongfei/git_repo/flu-amd/IRMA $IRMA_module_dir $fq $cons_dir\n\n";
+	print O "\# /data/fulongfei/git_repo/flu-amd/IRMA $IRMA_module_dir $fq $cons_dir\n\n";
 }
 # JSCDC_Segment
 if (!-d "$outdir/$name/IRMA/JSCDC_Segment"){
@@ -134,7 +151,7 @@ for my $freq (@freq){
 	my $freq_str = "consensusFreq".$freq_tmp;
 	my $cons_dir = "$outdir/$name/IRMA/JSCDC_Segment/$freq_str";
 	my $IRMA_module_dir = "HIV1freq".$freq_tmp."_JSCDC_Segment-pgm-hq"; # HIV1freq20_JSCDC_Segment
-	#print O "/data/fulongfei/git_repo/flu-amd/IRMA $IRMA_module_dir $fq $cons_dir\n\n";
+	print O "\# /data/fulongfei/git_repo/flu-amd/IRMA $IRMA_module_dir $fq $cons_dir\n\n";
 }
 
 # JSCDC_FullLength
@@ -146,24 +163,24 @@ for my $freq (@freq){
 	my $freq_str = "consensusFreq".$freq_tmp; # consensusFreq2/consensusFreq5/consensusFreq10/consensusFreq15/consensusFreq20
 	my $cons_dir = "$outdir/$name/IRMA/JSCDC_FullLength/$freq_str";
 	my $IRMA_module_dir = "HIV1freq".$freq_tmp."-pgm-hq"; # HIV1freq2/HIV1freq5/HIV1freq10/...
-	print O "/data/fulongfei/git_repo/flu-amd/IRMA $IRMA_module_dir $fq $cons_dir\n\n";
+	print O "\# /data/fulongfei/git_repo/flu-amd/IRMA $IRMA_module_dir $fq $cons_dir\n\n";
 }
 
 print O "\# nextalign generateConsensus fasta\n";
 my $cons_dir = "$outdir/$name/generateConsensus";
 my $nextAlign_dir = "$outdir/$name/nextalign";
-print O "perl /data/fulongfei/git_repo/HIVDrug/code/v1/merge_generateCons_fasta.pl $cons_dir $name $nextAlign_dir\n";
+print O "\# perl /data/fulongfei/git_repo/HIVDrug/code/v1/merge_generateCons_fasta.pl $cons_dir $name $nextAlign_dir\n";
 my $input_fa = "$outdir/$name/nextalign/input.fa";
-print O "/data/fulongfei/git_repo/ClustalO_2019nCoV/bin/nextalign --sequences\=$input_fa --reference\=$ref --output-dir\=$outdir/$name/nextalign --output-basename\=$name --include-reference --in-order\n\n";
+print O "\# /data/fulongfei/git_repo/ClustalO_2019nCoV/bin/nextalign --sequences\=$input_fa --reference\=$ref --output-dir\=$outdir/$name/nextalign --output-basename\=$name --include-reference --in-order\n\n";
 my $aln_fa = "$outdir/$name/nextalign/$name\.aligned.fasta";
 my $parsed_file = "$outdir/$name/nextalign/$name\.parsed.txt";
-print O "perl /data/fulongfei/git_repo/HIVDrug/scripts/parse_nextalign.pl $aln_fa $parsed_file\n\n";
+print O "\# perl /data/fulongfei/git_repo/HIVDrug/scripts/parse_nextalign.pl $aln_fa $parsed_file\n\n";
 
 
 print O "\# compare pileup and TVC freq\n";
 my $pileup2vaf_variants_xls = "$outdir/$name/pileup2vaf/$name\.variants.xls";
 my $cmp_txt = "$outdir/$name/freq_cmp.txt";
-print O "perl /data/fulongfei/analysis/hiv/final_tvc_json_test/compare_variantCaller_and_pileup2vaf.pl $alleles_xls $pileup2vaf_variants_xls >$cmp_txt\n";
+print O "\# perl /data/fulongfei/analysis/hiv/final_tvc_json_test/compare_variantCaller_and_pileup2vaf.pl $alleles_xls $pileup2vaf_variants_xls >$cmp_txt\n";
 
 close O;
 

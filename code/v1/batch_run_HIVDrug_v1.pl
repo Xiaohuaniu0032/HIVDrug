@@ -13,6 +13,6 @@ for my $bam (@bam_files){
 	my $name = "$name[0]\_$name[1]";
 	print "$name\n";
 
-	`perl $Bin/HIVDrug_v1.pl $bam $name $outdir`;
+	`perl /data/fulongfei/git_repo/HIVDrug/code/v1/HIVDrug_v1.pl $bam $name $outdir`;
 }
 
