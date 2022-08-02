@@ -82,9 +82,24 @@ for my $p (@ploidy){
 	print O "\# $freebayes --bam $bam --fasta-reference $ref -t $merged_bed -F 0.02 -C 1 --limit-coverage 3000 --ploidy $p --pooled-continuous --gvcf \>$outdir/$name/freebayes/$name\.freebayes\.$pp\.gvcf\n\n";
 }
 
+my $freebayes_gvcf = "$outdir/$name/freebayes/$name\.freebayes.ploidy2.gvcf";
+print O "\# freebayes to freq\n";
+print O "perl /data/fulongfei/git_repo/HIVDrug/freebayes_to_var.pl -vcf $freebayes_gvcf -n $name -od $outdir/$name\n\n";
+
+print O "\# make aln input fa\n";
+print O "perl /data/fulongfei/git_repo/HIVDrug/merge_fasta_as_multi_seq_aln_input.pl $outdir $name\n\n";
+
+print O "\# nextalign\n";
+my $input_fa = "$outdir/$name/nextalign/$name\.aln.input.fa";
+print O "/data/fulongfei/git_repo/ClustalO_2019nCoV/bin/nextalign --sequences\=$input_fa --reference\=/data/fulongfei/git_repo/HIVDrug/ref/K03455.fasta --output-dir\=$outdir/$name/nextalign --output-basename\=$name --in-order\n\n";
+
+print O "\# parse nextalign\n";
+my $aln_file = "$outdir/$name/nextalign/$name\.aligned.fasta";
+my $parsed_file = "$outdir/$name/nextalign/$name\.parsed.nextalign.txt";
+print O "perl /data/fulongfei/git_repo/HIVDrug/parse_nextalign.pl $aln_file $parsed_file\n\n";
+
 print O "\# freebayesConsensus\n";
 my @freq = qw/0.02 0.05 0.1 0.15 0.2/;
-my $freebayes_gvcf = "$outdir/$name/freebayes/$name\.freebayes.ploidy2.gvcf";
 for my $f (@freq){
 	my $freq_int = $f * 100;
 	my $freq_new = "Freq".$freq_int;
@@ -166,15 +181,15 @@ for my $freq (@freq){
 	print O "\# /data/fulongfei/git_repo/flu-amd/IRMA $IRMA_module_dir $fq $cons_dir\n\n";
 }
 
-print O "\# nextalign generateConsensus fasta\n";
-my $cons_dir = "$outdir/$name/generateConsensus";
-my $nextAlign_dir = "$outdir/$name/nextalign";
-print O "\# perl /data/fulongfei/git_repo/HIVDrug/code/v1/merge_generateCons_fasta.pl $cons_dir $name $nextAlign_dir\n";
-my $input_fa = "$outdir/$name/nextalign/input.fa";
-print O "\# /data/fulongfei/git_repo/ClustalO_2019nCoV/bin/nextalign --sequences\=$input_fa --reference\=$ref --output-dir\=$outdir/$name/nextalign --output-basename\=$name --include-reference --in-order\n\n";
-my $aln_fa = "$outdir/$name/nextalign/$name\.aligned.fasta";
-my $parsed_file = "$outdir/$name/nextalign/$name\.parsed.txt";
-print O "\# perl /data/fulongfei/git_repo/HIVDrug/scripts/parse_nextalign.pl $aln_fa $parsed_file\n\n";
+#print O "\# nextalign generateConsensus fasta\n";
+#my $cons_dir = "$outdir/$name/generateConsensus";
+#my $nextAlign_dir = "$outdir/$name/nextalign";
+#print O "\# perl /data/fulongfei/git_repo/HIVDrug/code/v1/merge_generateCons_fasta.pl $cons_dir $name $nextAlign_dir\n";
+#my $input_fa = "$outdir/$name/nextalign/input.fa";
+#print O "\# /data/fulongfei/git_repo/ClustalO_2019nCoV/bin/nextalign --sequences\=$input_fa --reference\=$ref --output-dir\=$outdir/$name/nextalign --output-basename\=$name --include-reference --in-order\n\n";
+#my $aln_fa = "$outdir/$name/nextalign/$name\.aligned.fasta";
+#my $parsed_file = "$outdir/$name/nextalign/$name\.parsed.txt";
+#print O "\# perl /data/fulongfei/git_repo/HIVDrug/scripts/parse_nextalign.pl $aln_fa $parsed_file\n\n";
 
 
 print O "\# compare pileup and TVC freq\n";
